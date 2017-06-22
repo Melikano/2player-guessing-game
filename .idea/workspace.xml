@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9b441f17-3001-48f3-a8bb-c0c90cab2867" name="Default" comment="Network part is somehow completed">
+    <list default="true" id="9b441f17-3001-48f3-a8bb-c0c90cab2867" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -256,7 +256,7 @@
       <updated>1498074337286</updated>
       <workItem from="1498074341752" duration="816000" />
       <workItem from="1498076172256" duration="7080000" />
-      <workItem from="1498110792071" duration="5164000" />
+      <workItem from="1498110792071" duration="5359000" />
     </task>
     <task id="LOCAL-00001" summary="Network part is somehow completed">
       <created>1498115817942</created>
@@ -265,11 +265,18 @@
       <option name="project" value="LOCAL" />
       <updated>1498115817942</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Network part is somehow completed">
+      <created>1498116125601</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1498116125601</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13060000" />
+    <option name="totallyTimeSpent" value="13255000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1847" height="1102" extended-state="6" />
