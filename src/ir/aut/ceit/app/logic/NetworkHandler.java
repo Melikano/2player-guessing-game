@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.SocketException;
+import java.util.Arrays;
 
 public class NetworkHandler extends Thread {
     private TcpChannel mTcpChannel;
@@ -65,6 +66,7 @@ public class NetworkHandler extends Thread {
 
         while (mTcpChannel.isConnected() && !stopIsCalled) {
 
+            byte[] message = readChannel();
             if (!mSendQueue.isEmpty()) {
 
                 try {
@@ -74,8 +76,10 @@ public class NetworkHandler extends Thread {
                     e.printStackTrace();
                 }
 
-            } else if (readChannel() != null) {
-                mReceivedQueue.enqueue(readChannel());
+            } else if (message != null) {
+
+                mReceivedQueue.enqueue(message);
+                mConsumerThread.start();
             }
         }
     }
@@ -104,12 +108,15 @@ public class NetworkHandler extends Thread {
         try {
             mTcpChannel.getStream();
             byte[] length = mTcpChannel.read(4);
+            if (length == null) {
+                return null;
+            }
             int x = java.nio.ByteBuffer.wrap(length).getInt();
             if (x == 0) {
                 return null;
             }
-            byte[] message = mTcpChannel.read(x);
-            byte[] completeMessage = new byte[x + 4];
+            byte[] message = mTcpChannel.read(x - 4);
+            byte[] completeMessage = new byte[x];
             int i = 0;
             for (byte b : length) {
                 completeMessage[i] = b;
@@ -117,9 +124,10 @@ public class NetworkHandler extends Thread {
             }
             i = 0;
             for (byte b : message) {
-                completeMessage[i + 3] = b;
+                completeMessage[i + 4] = b;
                 i++;
             }
+
             return completeMessage;
         } catch (IOException e) {
             e.printStackTrace();
@@ -144,12 +152,15 @@ public class NetworkHandler extends Thread {
          */
         @Override
         public void run() {
+
             while (mTcpChannel.isConnected() && !stopIsCalled) {
                 if (!mReceivedQueue.isEmpty()) {
+
                     try {
                         byte[] message = mReceivedQueue.dequeue();
-                        byte type = message[6];
+                        byte type = message[5];
                         if (type == MessageTypes.TEXT_MESSAGE) {
+
                             iNetworkHandlerCallback.onMessageReceived(new TextMessage(message));
 
                         } else if (type == MessageTypes.PLAYER_COORDINATION) {

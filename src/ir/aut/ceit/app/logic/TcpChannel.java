@@ -25,7 +25,7 @@ class TcpChannel {
     void getStream() throws IOException {
         try {
             mInputStream = mSocket.getInputStream();
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println("unable to get input stream");
         }
     }
@@ -34,12 +34,17 @@ class TcpChannel {
      * Try to read specific count from input stream.
      */
     byte[] read(final int count) throws IOException {
+
         byte[] data = new byte[count];
+        if (mInputStream.available() == 0) {
+            return null;
+        }
         try {
             mInputStream.read(data);
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("unable to read input");
         }
+
         return data;
     }
 
@@ -55,7 +60,7 @@ class TcpChannel {
     /**
      * Check socket’s connectivity.
      */
-    boolean isConnected(){
+    boolean isConnected() {
         return mSocket.isConnected();
     }
 
@@ -69,7 +74,7 @@ class TcpChannel {
         mInputStream.close();
     }
 
-    String getIp (){
+    String getIp() {
         return mSocket.getRemoteSocketAddress().toString();
     }
 }

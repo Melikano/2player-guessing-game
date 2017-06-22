@@ -10,12 +10,16 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     private ServerSocketHandler mServerSocketHandler;
     private List<NetworkHandler> mNetworkHandlerList = new ArrayList<>();
+    private boolean isHost;
+    private boolean isGuest;
+    private boolean started;
 
     /**
      * Instantiate server socket handler and start it. (Call this constructor in host mode)
      */
     public MessageManager(int port) {
         mServerSocketHandler = new ServerSocketHandler(port, this, this);
+        isHost = true;
         mServerSocketHandler.start();
 
     }
@@ -27,7 +31,10 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
         try {
             NetworkHandler networkHandler = new NetworkHandler(new Socket(ip, port), this);
+            isGuest = true;
+            mNetworkHandlerList.add(networkHandler);
             networkHandler.start();
+            started = true;
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -38,13 +45,17 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     public void sendTextMessage(String to, String text) {
         TextMessage textMessage = new TextMessage(text);
-        for (NetworkHandler networkHandler : mNetworkHandlerList) {
-            if (networkHandler.getmTcpChannel().getIp().equals(to)) {
-                System.out.println(networkHandler.getmTcpChannel().getIp());
-                System.out.println("found");
-                networkHandler.sendMessage(textMessage);
-                break;
+        if(isHost) {
+            for (NetworkHandler networkHandler : mNetworkHandlerList) {
+                if (networkHandler.getmTcpChannel().getIp().equals(to)) {
+                    System.out.println(networkHandler.getmTcpChannel().getIp());
+                    System.out.println("found");
+                    networkHandler.sendMessage(textMessage);
+                    break;
+                }
             }
+        }else if(isGuest){
+            mNetworkHandlerList.get(0).sendMessage(textMessage);
         }
 
     }
@@ -68,8 +79,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     private void consumeTextMessage(TextMessage message) {
         message.deserialize();
-        message.getText();// in text message mune
-        System.out.println(message);
+        System.out.println(message.getText());
     }
 
     /**
@@ -99,4 +109,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     public void onSocketClosed() {
     }
 
+    public boolean isStart() {
+        return started;
+    }
 }
