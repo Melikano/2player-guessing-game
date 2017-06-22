@@ -77,7 +77,6 @@ public class NetworkHandler extends Thread {
                 }
 
             } else if (message != null) {
-
                 mReceivedQueue.enqueue(message);
                 mConsumerThread.start();
             }
@@ -165,8 +164,8 @@ public class NetworkHandler extends Thread {
 
                         } else if (type == MessageTypes.PLAYER_COORDINATION) {
                             iNetworkHandlerCallback.onMessageReceived(new CoordinationPlayMessage(message));
-
-
+                        } else if (type == MessageTypes.NAMEIP_MESSAGE){
+                            iNetworkHandlerCallback.onMessageReceived(new NameIpMessage(message));
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();

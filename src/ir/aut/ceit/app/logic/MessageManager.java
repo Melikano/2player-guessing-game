@@ -45,28 +45,48 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     public void sendTextMessage(String to, String text) {
         TextMessage textMessage = new TextMessage(text);
+
         if(isHost) {
             for (NetworkHandler networkHandler : mNetworkHandlerList) {
-                if (networkHandler.getmTcpChannel().getIp().equals(to)) {
-                    System.out.println(networkHandler.getmTcpChannel().getIp());
-                    System.out.println("found");
+                if (networkHandler.getmTcpChannel().getIp().substring(1, 10).equals(to)) {
                     networkHandler.sendMessage(textMessage);
                     break;
                 }
             }
-        }else if(isGuest){
+        }
+        else if(isGuest){
             mNetworkHandlerList.get(0).sendMessage(textMessage);
         }
 
     }
 
-    public void sendCoordinationMessage(String to, String coordinationX1, String coordinationy1) {
-        CoordinationPlayMessage coordinationPlayMessage = new CoordinationPlayMessage(coordinationX1, coordinationy1);
-        for (NetworkHandler networkHandler : mNetworkHandlerList) {
-            if (networkHandler.getmTcpChannel().getIp().equals(to)) {
-                networkHandler.sendMessage(coordinationPlayMessage);
+    public void sendCoordinationMessage(String to, String coordinationX1, String coordinationY1) {
+        CoordinationPlayMessage coordinationPlayMessage = new CoordinationPlayMessage(coordinationX1, coordinationY1);
+        if(isHost) {
+            for (NetworkHandler networkHandler : mNetworkHandlerList) {
+                if (networkHandler.getmTcpChannel().getIp().substring(1, 10).equals(to)) {
+                    networkHandler.sendMessage(coordinationPlayMessage);
+                    break;
+                }
             }
         }
+    }
+
+    public void sendNameAndIp(String to, String name, String ip){
+        NameIpMessage nameIpMessage = new NameIpMessage(name, ip);
+
+        if(isHost) {
+            for (NetworkHandler networkHandler : mNetworkHandlerList) {
+                if (networkHandler.getmTcpChannel().getIp().substring(1, 10).equals(to)) {
+                    networkHandler.sendMessage(nameIpMessage);
+                    break;
+                }
+            }
+        }
+        else if(isGuest){
+            mNetworkHandlerList.get(0).sendMessage(nameIpMessage);
+        }
+
 
     }
 
@@ -82,6 +102,13 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
         System.out.println(message.getText());
     }
 
+    private void consumeNameAndIpMessage(NameIpMessage message){
+        message.deserialize();
+        System.out.println(message.getmName());
+        System.out.println(message.getmIp());
+
+    }
+
     /**
      * Add network handler to the list.
      */
@@ -90,7 +117,8 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
         mNetworkHandlerList.add(networkHandler);
         networkHandler.start();
-        System.out.println("new connection started");
+        System.out.println("new connection received");
+        started = true;
     }
 
     @Override
@@ -109,7 +137,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     public void onSocketClosed() {
     }
 
-    public boolean isStart() {
+    public boolean isStarted() {
         return started;
     }
 }
