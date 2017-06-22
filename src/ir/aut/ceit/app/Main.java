@@ -17,6 +17,7 @@ public class Main {
     private static boolean isHost;
     private static boolean isGuest;
 
+
     public Main() throws IOException {
     }
 
@@ -54,20 +55,31 @@ public class Main {
         }
 
         if (stage2 && isHost) {
+            MessageManager messageManager = new MessageManager(selectConnectionMode.getmPort());
+
+            while (!messageManager.isStarted()) {
+                System.out.println("wait for connection");
+            }
             WaitingForConnection s = new WaitingForConnection();
-            s.addConnectionToGUI("melika", "127.0.0.1");
-            s.addConnectionToGUI("sara", "198.168.0.49");
-            s.addConnectionToGUI("helen", "127.0.0.1");
-            s.addConnectionToGUI("alex", "198.168.0.49");
-            s.addConnectionToGUI("susi", "127.0.0.1");
-            s.addConnectionToGUI("kate", "198.168.0.49");
-            s.addConnectionToGUI("emma", "127.0.0.1");
-            s.addConnectionToGUI("regina", "198.168.0.49");
-            s.addConnectionToGUI("joe", "127.0.0.1");
-            s.addConnectionToGUI("david", "198.168.0.49");
-            s.createWindow();
             s.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            s.setVisible(true);
+
+            while (!stage3){
+                if (messageManager.isGotName()){
+                    s.addConnectionToGUI(messageManager.getName(), messageManager.getIp());
+                    messageManager.setGotName(false);
+                }
+                s.setVisible(true);
+                stage3 = s.isNextStage();
+            }
+        }
+
+        if(stage3 && isHost){
+            JFrame frame = new JFrame("Game");
+            PlayFiled play = new PlayFiled();
+            frame.setSize(400, 500);
+            frame.add(play);
+            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            frame.setVisible(true);
         }
 
     }

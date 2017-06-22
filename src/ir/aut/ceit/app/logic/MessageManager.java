@@ -13,6 +13,9 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     private boolean isHost;
     private boolean isGuest;
     private boolean started;
+    private boolean gotName;
+    private String name;
+    private String ip;
 
     /**
      * Instantiate server socket handler and start it. (Call this constructor in host mode)
@@ -104,9 +107,9 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     private void consumeNameAndIpMessage(NameIpMessage message){
         message.deserialize();
-        System.out.println(message.getmName());
-        System.out.println(message.getmIp());
-
+        name = message.getmName();
+        ip = message.getmIp();
+        gotName = true;
     }
 
     /**
@@ -130,6 +133,9 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
             case MessageTypes.PLAYER_COORDINATION:
                 consumeCoordinationMessage((CoordinationPlayMessage) baseMessage);
                 break;
+            case MessageTypes.NAMEIP_MESSAGE:
+                consumeNameAndIpMessage((NameIpMessage) baseMessage);
+                break;
         }
     }
 
@@ -139,5 +145,20 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     public boolean isStarted() {
         return started;
+    }
+    public String getName() {
+        return name;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public boolean isGotName() {
+        return gotName;
+    }
+
+    public void setGotName(boolean value) {
+        gotName = value;
     }
 }
