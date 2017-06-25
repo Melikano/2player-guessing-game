@@ -24,13 +24,11 @@ public class SelectConnectionMode extends JFrame {
     private String mIp;
 
 
-    public SelectConnectionMode(boolean currStage, boolean nextStage) {
+    public SelectConnectionMode() {
         super("Select connection mode...");
         setLayout(new GridLayout(6, 1));
         setSize(500, 300);
         setLocation(700, 200);
-        this.currStage = currStage;
-        this.nextStage = nextStage;
         createWindow();
 
     }
