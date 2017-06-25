@@ -16,7 +16,7 @@ public class SelectConnectionMode extends JFrame {
     private JButton exit = new JButton("Exit");
     private JButton start = new JButton("Start");
     private boolean nextStage;
-    private boolean currStage;
+    private boolean currStage = true;
     private boolean isHost;
     private boolean isGuest;
     private String mName;

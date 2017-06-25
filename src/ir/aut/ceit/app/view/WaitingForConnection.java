@@ -14,7 +14,7 @@ public class WaitingForConnection extends JFrame {
     private ArrayList<JButton> rejButtons = new ArrayList<>();
     private ArrayList<JButton> accButtons = new ArrayList<>();
     private JPanel connections = new JPanel(new GridLayout(20, 1));
-    private boolean currStage;
+    private boolean currStage = true;
     private boolean nextStage;
 
 
