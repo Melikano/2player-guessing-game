@@ -38,26 +38,25 @@ public class Main {
         }
 
         if (isGuest) {
+
+            PleaseWait pleaseWait = new PleaseWait();
+            pleaseWait.setVisible(true);
             while (stage2) {
 
                 MessageManager messageManager = new MessageManager(selectConnectionMode.getmIp(), selectConnectionMode.getmPort());
-
                 if (messageManager.isStarted()) {
-
                     messageManager.sendNameAndIp(selectConnectionMode.getmIp(), selectConnectionMode.getmName(), "123.4.5.6");
-                    PleaseWait pleaseWait = new PleaseWait();
-                    pleaseWait.setVisible(true);
                 }
-
             }
+
         } else if (isHost) {
 
-            while (stage2) {
-                MessageManager messageManager = new MessageManager(selectConnectionMode.getmPort());
-                WaitingForConnection waitingForConnection = new WaitingForConnection();
-                waitingForConnection.setVisible(true);
-                waitingForConnection.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            MessageManager messageManager = new MessageManager(selectConnectionMode.getmPort());
+            WaitingForConnection waitingForConnection = new WaitingForConnection();
+            waitingForConnection.setVisible(true);
+            waitingForConnection.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+            while (stage2) {
                 if (messageManager.isGotName()) {
                     waitingForConnection.addConnectionToGUI(messageManager.getName(), messageManager.getIp());
                     messageManager.setGotName(false);
