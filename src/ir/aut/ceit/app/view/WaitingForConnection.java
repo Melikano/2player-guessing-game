@@ -99,6 +99,7 @@ public class WaitingForConnection extends JFrame {
             for (int i = 0; i < accButtons.size(); i++) {
                 if (event.getSource() == accButtons.get(i)) {
                     System.out.println(names.get(i) + "  accepted");
+                    accepted = true;
                     nextStage = true;
                     break;
                 }
