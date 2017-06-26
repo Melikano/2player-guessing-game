@@ -16,6 +16,7 @@ public class Main {
     private static boolean stage2;
     private static boolean isHost;
     private static boolean isGuest;
+    private static boolean nameSent;
 
 
     public Main() throws IOException {
@@ -38,14 +39,14 @@ public class Main {
         }
 
         if (isGuest) {
-
+            MessageManager messageManager = new MessageManager(selectConnectionMode.getmIp(), selectConnectionMode.getmPort());
             PleaseWait pleaseWait = new PleaseWait();
             pleaseWait.setVisible(true);
-            while (stage2) {
 
-                MessageManager messageManager = new MessageManager(selectConnectionMode.getmIp(), selectConnectionMode.getmPort());
-                if (messageManager.isStarted()) {
+            while (stage2) {
+                if (messageManager.isStarted() && !nameSent) {
                     messageManager.sendNameAndIp(selectConnectionMode.getmIp(), selectConnectionMode.getmName(), "123.4.5.6");
+                    nameSent = true;
                 }
             }
 
@@ -58,6 +59,7 @@ public class Main {
 
             while (stage2) {
                 if (messageManager.isGotName()) {
+                    System.out.println("got name");
                     waitingForConnection.addConnectionToGUI(messageManager.getName(), messageManager.getIp());
                     messageManager.setGotName(false);
                     waitingForConnection.setVisible(true);
