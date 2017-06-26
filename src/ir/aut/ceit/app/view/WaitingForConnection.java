@@ -81,6 +81,10 @@ public class WaitingForConnection extends JFrame {
         return accepted;
     }
 
+    public void setAccepted(boolean accepted) {
+        this.accepted = accepted;
+    }
+
     public class ConnectionEventHandler implements ActionListener {
 
         @Override

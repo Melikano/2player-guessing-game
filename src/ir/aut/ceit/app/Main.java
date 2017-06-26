@@ -75,7 +75,8 @@ public class Main {
 
                 if (waitingForConnection.isAccepted()) {
                     System.out.println("accepted");
-                    messageManager.sendAcceptMessage(messageManager.getIp(), waitingForConnection.isAccepted());
+                    messageManager.sendAcceptMessage("127.0.0.1", waitingForConnection.isAccepted());
+                    waitingForConnection.setAccepted(false);
                 }
 
                 stage2 = waitingForConnection.isCurrStage();

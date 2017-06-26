@@ -83,7 +83,6 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     }
 
     public void sendAcceptMessage(String to, boolean isAccept) {
-
         AcceptMessage acceptMessage = new AcceptMessage(isAccept);
         for (NetworkHandler networkHandler : mNetworkHandlerList) {
             if (networkHandler.getmTcpChannel().getIp().substring(1, 10).equals(to)) {
@@ -143,6 +142,8 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
                 consumeNameAndIpMessage((NameIpMessage) baseMessage);
                 break;
             case MessageTypes.ACCEPT_MESSAGE:
+                consumeAcceptMessage((AcceptMessage) baseMessage);
+                break;
 
         }
     }
