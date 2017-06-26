@@ -159,13 +159,13 @@ public class NetworkHandler extends Thread {
                         byte[] message = mReceivedQueue.dequeue();
                         byte type = message[5];
                         if (type == MessageTypes.TEXT_MESSAGE) {
-
                             iNetworkHandlerCallback.onMessageReceived(new TextMessage(message));
-
                         } else if (type == MessageTypes.PLAYER_COORDINATION) {
                             iNetworkHandlerCallback.onMessageReceived(new CoordinationPlayMessage(message));
                         } else if (type == MessageTypes.NAMEIP_MESSAGE){
                             iNetworkHandlerCallback.onMessageReceived(new NameIpMessage(message));
+                        } else if (type == MessageTypes.ACCEPT_MESSAGE){
+                            iNetworkHandlerCallback.onMessageReceived(new AcceptMessage(message));
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -184,7 +184,6 @@ public class NetworkHandler extends Thread {
 
     public interface INetworkHandlerCallback {
         void onMessageReceived(BaseMessage baseMessage);
-
         void onSocketClosed();
     }
 }

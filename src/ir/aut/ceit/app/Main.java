@@ -14,6 +14,7 @@ public class Main {
 
     private static boolean stage1 = true;
     private static boolean stage2;
+    private static boolean stage3;
     private static boolean isHost;
     private static boolean isGuest;
     private static boolean nameSent;
@@ -45,19 +46,26 @@ public class Main {
 
             while (stage2) {
                 if (messageManager.isStarted() && !nameSent) {
-                    messageManager.sendNameAndIp(selectConnectionMode.getmIp(), selectConnectionMode.getmName(), "123.4.5.6");
+                    messageManager.sendNameAndIp(selectConnectionMode.getmName(), "123.4.5.6");
+                    System.out.println("name was sent");
                     nameSent = true;
+                }
+                if (messageManager.isHostAccept()) {
+                    pleaseWait.setVisible(false);
+                    System.out.println("stage 2 finished stage 3 started");
+                    stage2 = false;
+                    stage3 = true;
                 }
             }
 
         } else if (isHost) {
-
             MessageManager messageManager = new MessageManager(selectConnectionMode.getmPort());
             WaitingForConnection waitingForConnection = new WaitingForConnection();
             waitingForConnection.setVisible(true);
             waitingForConnection.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
             while (stage2) {
+                System.out.println("k");
                 if (messageManager.isGotName()) {
                     System.out.println("got name");
                     waitingForConnection.addConnectionToGUI(messageManager.getName(), messageManager.getIp());
@@ -65,8 +73,14 @@ public class Main {
                     waitingForConnection.setVisible(true);
                 }
 
+                if (waitingForConnection.isAccepted()) {
+                    System.out.println("accepted");
+                    messageManager.sendAcceptMessage(messageManager.getIp(), waitingForConnection.isAccepted());
+                }
+
                 stage2 = waitingForConnection.isCurrStage();
             }
+
         }
 
     }

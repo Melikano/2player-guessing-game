@@ -14,6 +14,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     private boolean isGuest;
     private boolean started;
     private boolean gotName;
+    private boolean hostAccept;
     private String name;
     private String ip;
 
@@ -49,15 +50,14 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     public void sendTextMessage(String to, String text) {
         TextMessage textMessage = new TextMessage(text);
 
-        if(isHost) {
+        if (isHost) {
             for (NetworkHandler networkHandler : mNetworkHandlerList) {
                 if (networkHandler.getmTcpChannel().getIp().substring(1, 10).equals(to)) {
                     networkHandler.sendMessage(textMessage);
                     break;
                 }
             }
-        }
-        else if(isGuest){
+        } else if (isGuest) {
             mNetworkHandlerList.get(0).sendMessage(textMessage);
         }
 
@@ -65,32 +65,32 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     public void sendCoordinationMessage(String to, String coordinationX1, String coordinationY1) {
         CoordinationPlayMessage coordinationPlayMessage = new CoordinationPlayMessage(coordinationX1, coordinationY1);
-        if(isHost) {
+        if (isHost) {
             for (NetworkHandler networkHandler : mNetworkHandlerList) {
                 if (networkHandler.getmTcpChannel().getIp().substring(1, 10).equals(to)) {
                     networkHandler.sendMessage(coordinationPlayMessage);
                     break;
                 }
             }
+        } else if (isGuest) {
+            mNetworkHandlerList.get(0).sendMessage(coordinationPlayMessage);
         }
     }
 
-    public void sendNameAndIp(String to, String name, String ip){
+    public void sendNameAndIp(String name, String ip) {
         NameIpMessage nameIpMessage = new NameIpMessage(name, ip);
+        mNetworkHandlerList.get(0).sendMessage(nameIpMessage);
+    }
 
-        if(isHost) {
-            for (NetworkHandler networkHandler : mNetworkHandlerList) {
-                if (networkHandler.getmTcpChannel().getIp().substring(1, 10).equals(to)) {
-                    networkHandler.sendMessage(nameIpMessage);
-                    break;
-                }
+    public void sendAcceptMessage(String to, boolean isAccept) {
+
+        AcceptMessage acceptMessage = new AcceptMessage(isAccept);
+        for (NetworkHandler networkHandler : mNetworkHandlerList) {
+            if (networkHandler.getmTcpChannel().getIp().substring(1, 10).equals(to)) {
+                networkHandler.sendMessage(acceptMessage);
+                break;
             }
         }
-        else if(isGuest){
-            mNetworkHandlerList.get(0).sendMessage(nameIpMessage);
-        }
-
-
     }
 
     private void consumeCoordinationMessage(CoordinationPlayMessage message) {
@@ -105,11 +105,17 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
         System.out.println(message.getText());
     }
 
-    private void consumeNameAndIpMessage(NameIpMessage message){
+    private void consumeNameAndIpMessage(NameIpMessage message) {
         message.deserialize();
         name = message.getmName();
         ip = message.getmIp();
         gotName = true;
+    }
+
+    private void consumeAcceptMessage(AcceptMessage message) {
+        message.deserialize();
+        hostAccept = message.ismAccept();
+
     }
 
     /**
@@ -136,6 +142,8 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
             case MessageTypes.NAMEIP_MESSAGE:
                 consumeNameAndIpMessage((NameIpMessage) baseMessage);
                 break;
+            case MessageTypes.ACCEPT_MESSAGE:
+
         }
     }
 
@@ -146,6 +154,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     public boolean isStarted() {
         return started;
     }
+
     public String getName() {
         return name;
     }
@@ -160,5 +169,9 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     public void setGotName(boolean value) {
         gotName = value;
+    }
+
+    public boolean isHostAccept() {
+        return hostAccept;
     }
 }

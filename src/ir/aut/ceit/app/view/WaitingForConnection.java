@@ -16,6 +16,8 @@ public class WaitingForConnection extends JFrame {
     private JPanel connections = new JPanel(new GridLayout(20, 1));
     private boolean currStage = true;
     private boolean nextStage;
+    private boolean rejected;
+    private boolean accepted;
 
 
     public WaitingForConnection() {
@@ -71,6 +73,14 @@ public class WaitingForConnection extends JFrame {
         return nextStage;
     }
 
+    public boolean isRejected() {
+        return rejected;
+    }
+
+    public boolean isAccepted() {
+        return accepted;
+    }
+
     public class ConnectionEventHandler implements ActionListener {
 
         @Override
@@ -81,6 +91,7 @@ public class WaitingForConnection extends JFrame {
                     rejButtons.get(i).setEnabled(false);
                     accButtons.get(i).setEnabled(false);
                     System.out.println(names.get(i) + "  rejected");
+                    rejected = true;
                     break;
                 }
             }
@@ -88,7 +99,6 @@ public class WaitingForConnection extends JFrame {
             for (int i = 0; i < accButtons.size(); i++) {
                 if (event.getSource() == accButtons.get(i)) {
                     System.out.println(names.get(i) + "  accepted");
-                    currStage = false;
                     nextStage = true;
                     break;
                 }
