@@ -1,6 +1,7 @@
 package ir.aut.ceit.app.logic;
 
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 public class AcceptMessage extends BaseMessage {
 
@@ -25,7 +26,7 @@ public class AcceptMessage extends BaseMessage {
         byteBuffer.put(MessageTypes.PROTOCOL_VERSION);
         byteBuffer.put(MessageTypes.ACCEPT_MESSAGE);
         byteBuffer.putInt(1);
-        if (!mAccept) {
+        if (mAccept) {
             byteBuffer.put((byte) 1);
 
         } else {
