@@ -57,6 +57,7 @@ public class Main {
                 }
                 if(messageManager.isHostReject()){
                     System.out.println("ow host rejected me");
+                    pleaseWait.setVisible(false);
                     RejectedByServer rejectedByServer = new RejectedByServer();
                     rejectedByServer.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                     rejectedByServer.setVisible(true);

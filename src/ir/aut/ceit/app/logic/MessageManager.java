@@ -98,11 +98,11 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     }
 
     public void sendRejectMessage(String to, boolean isReject) {
-        AcceptMessage acceptMessage = new AcceptMessage(isReject);
-        acceptMessage.serialize();
+        RejectMessage rejectMessage = new RejectMessage(isReject);
+        rejectMessage.serialize();
         for (NetworkHandler networkHandler : mNetworkHandlerList) {
             if (networkHandler.getmTcpChannel().getIp().equals(to)) {
-                networkHandler.sendMessage(acceptMessage);
+                networkHandler.sendMessage(rejectMessage);
                 break;
             }
         }
@@ -175,7 +175,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     @Override
     public void onSocketClosed(String closedIp) {
         for(NetworkHandler networkHandler : mNetworkHandlerList){
-            if (networkHandler.getmTcpChannel().getIp().substring(1, 10).equals(closedIp)) {
+            if (networkHandler.getmTcpChannel().getIp().equals(closedIp)) {
                 networkHandler.stopSelf();
                 break;
             }
