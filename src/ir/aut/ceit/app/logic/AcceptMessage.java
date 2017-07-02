@@ -2,19 +2,17 @@ package ir.aut.ceit.app.logic;
 
 import java.nio.ByteBuffer;
 
-public class AcceptMessage extends BaseMessage {
+public class AcceptMessage extends BooleanTypeMessage {
 
     private boolean mAccept;
 
     public AcceptMessage(boolean accept) {
-        mAccept = accept;
-        serialize();
-
+        super(accept);
+        mAccept = super.ismValue();
     }
 
     public AcceptMessage(byte[] serialized) {
-        mSerialized = serialized;
-        deserialize();
+        super(serialized);
     }
 
     @Override
@@ -34,20 +32,6 @@ public class AcceptMessage extends BaseMessage {
         mSerialized = byteBuffer.array();
     }
 
-    @Override
-    protected void deserialize() {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(mSerialized);
-        int messageLength = byteBuffer.getInt();
-        byte protocolVersion = byteBuffer.get();
-        byte messageType = byteBuffer.get();
-        int mAcceptLength = byteBuffer.getInt();
-        byte accept = byteBuffer.get();
-        if (accept == 1) {
-            mAccept = true;
-        } else if (accept == 0) {
-            mAccept = false;
-        }
-    }
 
     @Override
     public byte getMessageType() {
@@ -55,6 +39,6 @@ public class AcceptMessage extends BaseMessage {
     }
 
     public boolean ismAccept() {
-        return mAccept;
+        return super.ismValue();
     }
 }

@@ -50,12 +50,18 @@ public class Main {
                     System.out.println("name was sent");
                     nameSent = true;
                 }
+                System.out.println("h");
                 if (messageManager.isHostAccept()) {
+                    System.out.println("ow host accepted");
                     pleaseWait.setVisible(false);
                     System.out.println("stage 2 finished stage 3 started");
                     stage2 = false;
                     stage3 = true;
                 }
+            }
+            while (stage3){
+                PlayFiled p = new PlayFiled();
+                // attach the play fiel
             }
 
         } else if (isHost && stage2) {

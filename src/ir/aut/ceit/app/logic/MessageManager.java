@@ -87,6 +87,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     public void sendAcceptMessage(String to, boolean isAccept) {
         AcceptMessage acceptMessage = new AcceptMessage(isAccept);
+        acceptMessage.serialize();
         for (NetworkHandler networkHandler : mNetworkHandlerList) {
             if (networkHandler.getmTcpChannel().getIp().equals(to)) {
                 networkHandler.sendMessage(acceptMessage);

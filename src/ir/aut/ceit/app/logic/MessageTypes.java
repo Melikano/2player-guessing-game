@@ -8,6 +8,7 @@ public class MessageTypes {
     /**
      * Code of request login message
      */
+    public static final byte BOOLEAN_TYPE = 0;
     public static final byte TEXT_MESSAGE = 1;
     public static final byte PLAYER_COORDINATION = 2;
     public static final byte NAME_MESSAGE = 3;
