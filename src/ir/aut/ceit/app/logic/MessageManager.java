@@ -54,7 +54,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
         if (isHost) {
             for (NetworkHandler networkHandler : mNetworkHandlerList) {
-                if (networkHandler.getmTcpChannel().getIp().substring(1, 10).equals(to)) {
+                if (networkHandler.getmTcpChannel().getIp().equals(to)) {
                     networkHandler.sendMessage(textMessage);
                     break;
                 }
@@ -69,7 +69,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
         CoordinationPlayMessage coordinationPlayMessage = new CoordinationPlayMessage(coordinationX1, coordinationY1);
         if (isHost) {
             for (NetworkHandler networkHandler : mNetworkHandlerList) {
-                if (networkHandler.getmTcpChannel().getIp().substring(1, 10).equals(to)) {
+                if (networkHandler.getmTcpChannel().getIp().equals(to)) {
                     networkHandler.sendMessage(coordinationPlayMessage);
                     break;
                 }
@@ -88,7 +88,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     public void sendAcceptMessage(String to, boolean isAccept) {
         AcceptMessage acceptMessage = new AcceptMessage(isAccept);
         for (NetworkHandler networkHandler : mNetworkHandlerList) {
-            if (networkHandler.getmTcpChannel().getIp().substring(1, 10).equals(to)) {
+            if (networkHandler.getmTcpChannel().getIp().equals(to)) {
                 networkHandler.sendMessage(acceptMessage);
                 break;
             }

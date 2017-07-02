@@ -75,6 +75,6 @@ class TcpChannel {
     }
 
     String getIp() {
-        return mSocket.getRemoteSocketAddress().toString();
+        return mSocket.getRemoteSocketAddress().toString().substring(1, 10);
     }
 }
