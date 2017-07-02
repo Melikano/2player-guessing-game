@@ -2,17 +2,18 @@ package ir.aut.ceit.app.logic;
 
 import java.nio.ByteBuffer;
 
-public class NameMessage extends BaseMessage{
+public class NameMessage extends TextMessage{
     private String mName;
 
     public NameMessage(String name) {
-        mName = name;
-        serialize();
+        super(name);
+        mName = super.getText();
     }
 
     public NameMessage(byte[] serialized) {
-        mSerialized = serialized;
-        deserialize();
+        //mSerialized = serialized;
+        //deserialize();
+        super(serialized);
     }
 
     @Override
@@ -28,23 +29,11 @@ public class NameMessage extends BaseMessage{
         mSerialized = byteBuffer.array();
     }
 
-    protected void deserialize() {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(mSerialized);
-        byteBuffer.getInt();
-        byteBuffer.get();
-        byteBuffer.get();
-        int mTextLength = byteBuffer.getInt();
-        byte[] mTextBytes = new byte[mTextLength];
-        byteBuffer.get(mTextBytes);
-        mName = new String(mTextBytes);
-    }
-
-
     public byte getMessageType() {
         return MessageTypes.NAME_MESSAGE;
     }
 
     public String getmName() {
-        return mName;
+        return super.getText();
     }
 }

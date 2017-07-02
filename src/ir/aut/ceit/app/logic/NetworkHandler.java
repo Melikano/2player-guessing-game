@@ -91,6 +91,7 @@ public class NetworkHandler extends Thread {
 
     {
         mConsumerThread.stop();
+        currentThread().stop();
         try {
             mTcpChannel.closeChannel();
         } catch (IOException e) {

@@ -50,6 +50,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     public void sendTextMessage(String to, String text) {
         TextMessage textMessage = new TextMessage(text);
+        textMessage.serialize();
 
         if (isHost) {
             for (NetworkHandler networkHandler : mNetworkHandlerList) {
@@ -79,8 +80,9 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     }*/
 
     public void sendName(String name) {
-        NameMessage nameIpMessage = new NameMessage(name);
-        mNetworkHandlerList.get(0).sendMessage(nameIpMessage);
+        NameMessage nameMessage = new NameMessage(name);
+        nameMessage.serialize();
+        mNetworkHandlerList.get(0).sendMessage(nameMessage);
     }
 
     public void sendAcceptMessage(String to, boolean isAccept) {
@@ -139,10 +141,10 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
             case MessageTypes.PLAYER_COORDINATION:
                 consumeCoordinationMessage((CoordinationPlayMessage) baseMessage);
                 break;
-            case MessageTypes.NAME_MESSAGE :
+            case MessageTypes.NAME_MESSAGE:
                 consumeNameMessage((NameMessage) baseMessage);
                 break;
-            case MessageTypes.ACCEPT_MESSAGE :
+            case MessageTypes.ACCEPT_MESSAGE:
                 consumeAcceptMessage((AcceptMessage) baseMessage);
                 break;
 
@@ -151,6 +153,12 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     @Override
     public void onSocketClosed(String closedIp) {
+        for(NetworkHandler networkHandler : mNetworkHandlerList){
+            if (networkHandler.getmTcpChannel().getIp().substring(1, 10).equals(closedIp)) {
+                networkHandler.stopSelf();
+                break;
+            }
+        }
     }
 
     public boolean isStarted() {
@@ -162,7 +170,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     }
 
     public String getIp() {
-        return mNetworkHandlerList.get(count).getmTcpChannel().getIp();
+        return mNetworkHandlerList.get(count - 1).getmTcpChannel().getIp();
     }
 
     public boolean isGotName() {

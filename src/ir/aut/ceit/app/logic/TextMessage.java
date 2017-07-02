@@ -7,7 +7,6 @@ public class TextMessage extends BaseMessage {
 
     public TextMessage(String text) {
         mText = text;
-        serialize();
     }
 
     public TextMessage(byte[] serialized) {
