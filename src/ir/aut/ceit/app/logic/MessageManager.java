@@ -4,19 +4,20 @@ package ir.aut.ceit.app.logic;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MessageManager implements ServerSocketHandler.IServerSocketHandlerCallback, NetworkHandler.INetworkHandlerCallback {
 
     private ServerSocketHandler mServerSocketHandler;
     private List<NetworkHandler> mNetworkHandlerList = new ArrayList<>();
+    private static int count;
     private boolean isHost;
     private boolean isGuest;
     private boolean started;
     private boolean gotName;
     private boolean hostAccept;
-    private String name;
-    private String ip;
+    private String guestName;
 
     /**
      * Instantiate server socket handler and start it. (Call this constructor in host mode)
@@ -63,7 +64,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     }
 
-    public void sendCoordinationMessage(String to, String coordinationX1, String coordinationY1) {
+    /*public void sendCoordinationMessage(String to, String coordinationX1, String coordinationY1) {
         CoordinationPlayMessage coordinationPlayMessage = new CoordinationPlayMessage(coordinationX1, coordinationY1);
         if (isHost) {
             for (NetworkHandler networkHandler : mNetworkHandlerList) {
@@ -75,10 +76,10 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
         } else if (isGuest) {
             mNetworkHandlerList.get(0).sendMessage(coordinationPlayMessage);
         }
-    }
+    }*/
 
-    public void sendNameAndIp(String name, String ip) {
-        NameIpMessage nameIpMessage = new NameIpMessage(name, ip);
+    public void sendName(String name) {
+        NameMessage nameIpMessage = new NameMessage(name);
         mNetworkHandlerList.get(0).sendMessage(nameIpMessage);
     }
 
@@ -104,10 +105,9 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
         System.out.println(message.getText());
     }
 
-    private void consumeNameAndIpMessage(NameIpMessage message) {
+    private void consumeNameMessage(NameMessage message) {
         message.deserialize();
-        name = message.getmName();
-        ip = message.getmIp();
+        guestName = message.getmName();
         gotName = true;
     }
 
@@ -124,6 +124,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     public void onNewConnectionReceived(NetworkHandler networkHandler) {
 
         mNetworkHandlerList.add(networkHandler);
+        count++;
         networkHandler.start();
         System.out.println("new connection received");
         started = true;
@@ -138,10 +139,10 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
             case MessageTypes.PLAYER_COORDINATION:
                 consumeCoordinationMessage((CoordinationPlayMessage) baseMessage);
                 break;
-            case MessageTypes.NAMEIP_MESSAGE:
-                consumeNameAndIpMessage((NameIpMessage) baseMessage);
+            case MessageTypes.NAME_MESSAGE :
+                consumeNameMessage((NameMessage) baseMessage);
                 break;
-            case MessageTypes.ACCEPT_MESSAGE:
+            case MessageTypes.ACCEPT_MESSAGE :
                 consumeAcceptMessage((AcceptMessage) baseMessage);
                 break;
 
@@ -149,7 +150,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     }
 
     @Override
-    public void onSocketClosed() {
+    public void onSocketClosed(String closedIp) {
     }
 
     public boolean isStarted() {
@@ -157,11 +158,11 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     }
 
     public String getName() {
-        return name;
+        return guestName;
     }
 
     public String getIp() {
-        return ip;
+        return mNetworkHandlerList.get(count).getmTcpChannel().getIp();
     }
 
     public boolean isGotName() {

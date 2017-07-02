@@ -39,14 +39,14 @@ public class Main {
             isHost = selectConnectionMode.isHost();
         }
 
-        if (isGuest) {
+        if (isGuest && stage2) {
             MessageManager messageManager = new MessageManager(selectConnectionMode.getmIp(), selectConnectionMode.getmPort());
             PleaseWait pleaseWait = new PleaseWait();
             pleaseWait.setVisible(true);
 
             while (stage2) {
                 if (messageManager.isStarted() && !nameSent) {
-                    messageManager.sendNameAndIp(selectConnectionMode.getmName(), "123.4.5.6");
+                    messageManager.sendName(selectConnectionMode.getmName());
                     System.out.println("name was sent");
                     nameSent = true;
                 }
@@ -58,7 +58,7 @@ public class Main {
                 }
             }
 
-        } else if (isHost) {
+        } else if (isHost && stage2) {
             MessageManager messageManager = new MessageManager(selectConnectionMode.getmPort());
             WaitingForConnection waitingForConnection = new WaitingForConnection();
             waitingForConnection.setVisible(true);
@@ -77,6 +77,9 @@ public class Main {
                     System.out.println("accepted");
                     messageManager.sendAcceptMessage("127.0.0.1", waitingForConnection.isAccepted());
                     waitingForConnection.setAccepted(false);
+                } else if (waitingForConnection.isRejected()) {
+                    System.out.println("rejected");
+                    messageManager.onSocketClosed(waitingForConnection.getRejectedIp());
                 }
 
                 stage2 = waitingForConnection.isCurrStage();

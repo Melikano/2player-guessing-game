@@ -1,7 +1,6 @@
 package ir.aut.ceit.app.logic;
 
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 
 public class AcceptMessage extends BaseMessage {
 
