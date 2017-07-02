@@ -163,11 +163,12 @@ public class NetworkHandler extends Thread {
                             iNetworkHandlerCallback.onMessageReceived(new TextMessage(message));
                         } else if (type == MessageTypes.PLAYER_COORDINATION) {
                             iNetworkHandlerCallback.onMessageReceived(new CoordinationPlayMessage(message));
-                        } else if (type == MessageTypes.NAME_MESSAGE){
+                        } else if (type == MessageTypes.NAME_MESSAGE) {
                             iNetworkHandlerCallback.onMessageReceived(new NameMessage(message));
-                        } else if (type == MessageTypes.ACCEPT_MESSAGE){
+                        } else if (type == MessageTypes.ACCEPT_MESSAGE) {
                             iNetworkHandlerCallback.onMessageReceived(new AcceptMessage(message));
-                        }
+                        } else if (type == MessageTypes.REJECT_MESSAGE)
+                            iNetworkHandlerCallback.onMessageReceived(new RejectMessage(message));
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -185,6 +186,7 @@ public class NetworkHandler extends Thread {
 
     public interface INetworkHandlerCallback {
         void onMessageReceived(BaseMessage baseMessage);
+
         void onSocketClosed(String closedIp);
     }
 }

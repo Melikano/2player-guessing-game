@@ -17,6 +17,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     private boolean started;
     private boolean gotName;
     private boolean hostAccept;
+    private boolean hostReject;
     private String guestName;
 
     /**
@@ -96,6 +97,17 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
         }
     }
 
+    public void sendRejectMessage(String to, boolean isReject) {
+        AcceptMessage acceptMessage = new AcceptMessage(isReject);
+        acceptMessage.serialize();
+        for (NetworkHandler networkHandler : mNetworkHandlerList) {
+            if (networkHandler.getmTcpChannel().getIp().equals(to)) {
+                networkHandler.sendMessage(acceptMessage);
+                break;
+            }
+        }
+    }
+
     private void consumeCoordinationMessage(CoordinationPlayMessage message) {
         message.deserialize();
         message.getCoordinationX();
@@ -117,6 +129,11 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     private void consumeAcceptMessage(AcceptMessage message) {
         message.deserialize();
         hostAccept = message.ismAccept();
+
+    }
+    private void consumeRejectMessage(RejectMessage message) {
+        message.deserialize();
+        hostReject = message.ismAccept();
 
     }
 
@@ -147,6 +164,9 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
                 break;
             case MessageTypes.ACCEPT_MESSAGE:
                 consumeAcceptMessage((AcceptMessage) baseMessage);
+                break;
+            case MessageTypes.REJECT_MESSAGE:
+                consumeRejectMessage((RejectMessage) baseMessage);
                 break;
 
         }
@@ -184,5 +204,8 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     public boolean isHostAccept() {
         return hostAccept;
+    }
+    public boolean isHostReject() {
+        return hostReject;
     }
 }

@@ -95,6 +95,10 @@ public class WaitingForConnection extends JFrame {
         this.accepted = accepted;
     }
 
+    public void setRejected(boolean rejected) {
+        this.rejected = rejected;
+    }
+
     public class ConnectionEventHandler implements ActionListener {
 
         @Override

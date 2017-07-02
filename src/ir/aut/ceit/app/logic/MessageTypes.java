@@ -13,4 +13,5 @@ public class MessageTypes {
     public static final byte PLAYER_COORDINATION = 2;
     public static final byte NAME_MESSAGE = 3;
     public static final byte ACCEPT_MESSAGE = 4;
+    public static final byte REJECT_MESSAGE = 5;
 }

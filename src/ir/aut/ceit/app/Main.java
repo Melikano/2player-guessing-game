@@ -1,10 +1,7 @@
 package ir.aut.ceit.app;
 
 import ir.aut.ceit.app.logic.MessageManager;
-import ir.aut.ceit.app.view.PlayFiled;
-import ir.aut.ceit.app.view.PleaseWait;
-import ir.aut.ceit.app.view.SelectConnectionMode;
-import ir.aut.ceit.app.view.WaitingForConnection;
+import ir.aut.ceit.app.view.*;
 
 import javax.swing.*;
 import java.io.*;
@@ -58,10 +55,18 @@ public class Main {
                     stage2 = false;
                     stage3 = true;
                 }
+                if(messageManager.isHostReject()){
+                    System.out.println("ow host rejected me");
+                    RejectedByServer rejectedByServer = new RejectedByServer();
+                    rejectedByServer.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                    rejectedByServer.setVisible(true);
+                    stage2 = false;
+                    stage3 = false;
+                }
             }
             while (stage3){
                 PlayFiled p = new PlayFiled();
-                // attach the play fiel
+                // attach the play field
             }
 
         } else if (isHost && stage2) {
@@ -81,11 +86,13 @@ public class Main {
 
                 if (waitingForConnection.isAccepted()) {
                     System.out.println("accepted");
-                    messageManager.sendAcceptMessage("127.0.0.1", waitingForConnection.isAccepted());
+                    messageManager.sendAcceptMessage(waitingForConnection.getAcceptedIp(), waitingForConnection.isAccepted());
                     waitingForConnection.setAccepted(false);
                 } else if (waitingForConnection.isRejected()) {
                     System.out.println("rejected");
+                    messageManager.sendRejectMessage(waitingForConnection.getRejectedIp(), waitingForConnection.isRejected());
                     messageManager.onSocketClosed(waitingForConnection.getRejectedIp());
+                    waitingForConnection.setRejected(false);
                 }
 
                 stage2 = waitingForConnection.isCurrStage();
