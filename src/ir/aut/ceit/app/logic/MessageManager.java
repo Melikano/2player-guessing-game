@@ -18,6 +18,8 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     private boolean gotName;
     private boolean hostAccept;
     private boolean hostReject;
+    private boolean guestCancel;
+    private String canceledIp;
     private String guestName;
 
     /**
@@ -108,6 +110,12 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
         }
     }
 
+    public void sendCancelMessage(boolean isCanceled) {
+        CancelMessage cancelMessage = new CancelMessage(isCanceled);
+        cancelMessage.serialize();
+        mNetworkHandlerList.get(0).sendMessage(cancelMessage);
+    }
+
     private void consumeCoordinationMessage(CoordinationPlayMessage message) {
         message.deserialize();
         message.getCoordinationX();
@@ -133,7 +141,13 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     }
     private void consumeRejectMessage(RejectMessage message) {
         message.deserialize();
-        hostReject = message.ismAccept();
+        hostReject = message.ismReject();
+
+    }
+    private void consumeCancelMessage(CancelMessage message, String senderIp) {
+        message.deserialize();
+        guestCancel = message.ismCancel();
+        canceledIp = senderIp;
 
     }
 
@@ -151,7 +165,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     }
 
     @Override
-    public void onMessageReceived(BaseMessage baseMessage) {
+    public void onMessageReceived(BaseMessage baseMessage, String senderIp) {
         switch (baseMessage.getMessageType()) {
             case MessageTypes.TEXT_MESSAGE:
                 consumeTextMessage((TextMessage) baseMessage);
@@ -167,6 +181,9 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
                 break;
             case MessageTypes.REJECT_MESSAGE:
                 consumeRejectMessage((RejectMessage) baseMessage);
+                break;
+            case MessageTypes.CANCEL_MESSAGE:
+                consumeCancelMessage((CancelMessage) baseMessage, senderIp);
                 break;
 
         }
@@ -207,5 +224,17 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     }
     public boolean isHostReject() {
         return hostReject;
+    }
+
+    public boolean isGuestCancel() {
+        return guestCancel;
+    }
+
+    public void setGuestCancel(boolean guestCancel) {
+        this.guestCancel = guestCancel;
+    }
+
+    public String getCanceledIp() {
+        return canceledIp;
     }
 }

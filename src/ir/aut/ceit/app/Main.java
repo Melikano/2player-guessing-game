@@ -55,17 +55,27 @@ public class Main {
                     stage2 = false;
                     stage3 = true;
                 }
-                if(messageManager.isHostReject()){
+                if (messageManager.isHostReject()) {
                     System.out.println("ow host rejected me");
                     pleaseWait.setVisible(false);
-                    RejectedByServer rejectedByServer = new RejectedByServer();
-                    rejectedByServer.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                    rejectedByServer.setVisible(true);
+                    ConnectionClosed connectionClosed = new ConnectionClosed();
+                    connectionClosed.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                    connectionClosed.setVisible(true);
+                    stage2 = false;
+                    stage3 = false;
+                }
+                if (pleaseWait.isConnectionCanceled()) {
+                    System.out.println("i canceled");
+                    messageManager.sendCancelMessage(pleaseWait.isConnectionCanceled());
+                    pleaseWait.setVisible(false);
+                    ConnectionClosed connectionClosed = new ConnectionClosed();
+                    connectionClosed.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                    connectionClosed.setVisible(true);
                     stage2 = false;
                     stage3 = false;
                 }
             }
-            while (stage3){
+            while (stage3) {
                 PlayFiled p = new PlayFiled();
                 // attach the play field
             }
@@ -89,13 +99,19 @@ public class Main {
                     System.out.println("accepted");
                     messageManager.sendAcceptMessage(waitingForConnection.getAcceptedIp(), waitingForConnection.isAccepted());
                     waitingForConnection.setAccepted(false);
-                } else if (waitingForConnection.isRejected()) {
+                }
+                if (waitingForConnection.isRejected()) {
                     System.out.println("rejected");
                     messageManager.sendRejectMessage(waitingForConnection.getRejectedIp(), waitingForConnection.isRejected());
                     messageManager.onSocketClosed(waitingForConnection.getRejectedIp());
                     waitingForConnection.setRejected(false);
                 }
-
+                if(messageManager.isGuestCancel()){
+                    System.out.println("guest canceled");
+                    waitingForConnection.cancelAConnection(messageManager.getCanceledIp());
+                    messageManager.onSocketClosed(messageManager.getCanceledIp());
+                    messageManager.setGuestCancel(false);
+                }
                 stage2 = waitingForConnection.isCurrStage();
             }
 

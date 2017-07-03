@@ -78,6 +78,7 @@ public class NetworkHandler extends Thread {
 
             } else if (message != null) {
                 mReceivedQueue.enqueue(message);
+                mConsumerThread.setSenderIp(this.getmTcpChannel().getIp());
                 mConsumerThread.start();
             }
         }
@@ -150,6 +151,7 @@ public class NetworkHandler extends Thread {
          * *  from appropriate class based on message type byte and pass it through onMessageReceived
          * * else if receivedQueue is empty, then sleep 100 ms.
          */
+        String senderIp;
         @Override
         public void run() {
 
@@ -159,7 +161,33 @@ public class NetworkHandler extends Thread {
                     try {
                         byte[] message = mReceivedQueue.dequeue();
                         byte type = message[5];
-                        if (type == MessageTypes.TEXT_MESSAGE) {
+                        switch (type) {
+                            case MessageTypes.TEXT_MESSAGE:
+                                iNetworkHandlerCallback.onMessageReceived(new TextMessage(message), senderIp);
+                                break;
+                            case MessageTypes.PLAYER_COORDINATION:
+                                iNetworkHandlerCallback.onMessageReceived(new CoordinationPlayMessage(message), senderIp);
+                                break;
+                            case MessageTypes.NAME_MESSAGE:
+                                iNetworkHandlerCallback.onMessageReceived(new NameMessage(message), senderIp);
+                                break;
+                            case MessageTypes.ACCEPT_MESSAGE:
+                                iNetworkHandlerCallback.onMessageReceived(new AcceptMessage(message), senderIp);
+                                break;
+                            case MessageTypes.REJECT_MESSAGE:
+                                iNetworkHandlerCallback.onMessageReceived(new RejectMessage(message), senderIp);
+                                break;
+                            case MessageTypes.CANCEL_MESSAGE:
+                                iNetworkHandlerCallback.onMessageReceived(new CancelMessage(message), senderIp);
+                                break;
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+                       /* if (type == MessageTypes.TEXT_MESSAGE) {
                             iNetworkHandlerCallback.onMessageReceived(new TextMessage(message));
                         } else if (type == MessageTypes.PLAYER_COORDINATION) {
                             iNetworkHandlerCallback.onMessageReceived(new CoordinationPlayMessage(message));
@@ -167,13 +195,16 @@ public class NetworkHandler extends Thread {
                             iNetworkHandlerCallback.onMessageReceived(new NameMessage(message));
                         } else if (type == MessageTypes.ACCEPT_MESSAGE) {
                             iNetworkHandlerCallback.onMessageReceived(new AcceptMessage(message));
-                        } else if (type == MessageTypes.REJECT_MESSAGE)
+                        } else if (type == MessageTypes.REJECT_MESSAGE) {
                             iNetworkHandlerCallback.onMessageReceived(new RejectMessage(message));
+                        } else if (type == MessageTypes.CANCEL_MESSAGE) {
+                            iNetworkHandlerCallback.onMessageReceived(new CancelMessage(message));
+                        }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
-                    }
+                    }*/
 
-                } else if (mReceivedQueue.isEmpty()) {
+                else if (mReceivedQueue.isEmpty()) {
                     try {
                         sleep(100);
                     } catch (InterruptedException e) {
@@ -182,10 +213,15 @@ public class NetworkHandler extends Thread {
                 }
             }
         }
+
+        private void setSenderIp(String ip){
+            senderIp = ip;
+        }
     }
 
+
     public interface INetworkHandlerCallback {
-        void onMessageReceived(BaseMessage baseMessage);
+        void onMessageReceived(BaseMessage baseMessage, String ip);
 
         void onSocketClosed(String closedIp);
     }

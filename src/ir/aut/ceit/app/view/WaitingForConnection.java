@@ -66,6 +66,15 @@ public class WaitingForConnection extends JFrame {
 
 
     }
+    public void cancelAConnection(String ip){
+        for(int i = 0; i < ips.size(); i++){
+            if(ips.get(i).equals(ip)){
+                rejButtons.get(i).setEnabled(false);
+                accButtons.get(i).setEnabled(false);
+            }
+        }
+
+    }
 
     public boolean isCurrStage() {
         return currStage;

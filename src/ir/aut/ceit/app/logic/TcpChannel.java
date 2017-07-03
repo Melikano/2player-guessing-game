@@ -77,4 +77,7 @@ class TcpChannel {
     String getIp() {
         return mSocket.getRemoteSocketAddress().toString().substring(1, 10);
     }
+    String getloclIp() {
+        return mSocket.getLocalAddress().toString().substring(1, 10);
+    }
 }

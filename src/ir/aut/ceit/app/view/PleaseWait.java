@@ -37,4 +37,11 @@ public class PleaseWait extends JFrame {
     }
 
 
+    public boolean isConnectionCanceled() {
+        return connectionCanceled;
+    }
+
+    public void setConnectionCanceled(boolean connectionCanceled) {
+        this.connectionCanceled = connectionCanceled;
+    }
 }

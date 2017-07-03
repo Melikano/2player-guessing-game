@@ -2,16 +2,16 @@ package ir.aut.ceit.app.logic;
 
 import java.nio.ByteBuffer;
 
-public class RejectMessage extends BooleanTypeMessage {
+public class CancelMessage extends BooleanTypeMessage {
 
-    private boolean mReject;
+    private boolean mCancel;
 
-    public RejectMessage(boolean accept) {
+    public CancelMessage(boolean accept) {
         super(accept);
-        mReject = super.ismValue();
+        mCancel = super.ismValue();
     }
 
-    public RejectMessage(byte[] serialized) {
+    public CancelMessage(byte[] serialized) {
         super(serialized);
     }
 
@@ -21,9 +21,9 @@ public class RejectMessage extends BooleanTypeMessage {
         ByteBuffer byteBuffer = ByteBuffer.allocate(messageLength);
         byteBuffer.putInt(messageLength);
         byteBuffer.put(MessageTypes.PROTOCOL_VERSION);
-        byteBuffer.put(MessageTypes.REJECT_MESSAGE);
+        byteBuffer.put(MessageTypes.CANCEL_MESSAGE);
         byteBuffer.putInt(1);
-        if (mReject) {
+        if (mCancel) {
             byteBuffer.put((byte) 1);
 
         } else {
@@ -35,11 +35,10 @@ public class RejectMessage extends BooleanTypeMessage {
 
     @Override
     public byte getMessageType() {
-        return MessageTypes.REJECT_MESSAGE;
+        return MessageTypes.ACCEPT_MESSAGE;
     }
 
-    public boolean ismReject() {
+    public boolean ismCancel() {
         return super.ismValue();
     }
 }
-
