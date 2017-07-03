@@ -91,8 +91,8 @@ public class NetworkHandler extends Thread {
     public void stopSelf()
 
     {
-        mConsumerThread.stop();
-        currentThread().stop();
+       // mConsumerThread.stop();
+       // currentThread().stop();
         try {
             mTcpChannel.closeChannel();
         } catch (IOException e) {
@@ -186,7 +186,6 @@ public class NetworkHandler extends Thread {
                     }
                 }
 
-
                        /* if (type == MessageTypes.TEXT_MESSAGE) {
                             iNetworkHandlerCallback.onMessageReceived(new TextMessage(message));
                         } else if (type == MessageTypes.PLAYER_COORDINATION) {
@@ -222,7 +221,6 @@ public class NetworkHandler extends Thread {
 
     public interface INetworkHandlerCallback {
         void onMessageReceived(BaseMessage baseMessage, String ip);
-
         void onSocketClosed(String closedIp);
     }
 }

@@ -61,6 +61,7 @@ public class Main {
                     ConnectionClosed connectionClosed = new ConnectionClosed();
                     connectionClosed.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                     connectionClosed.setVisible(true);
+                    messageManager.onSocketClosed("");
                     stage2 = false;
                     stage3 = false;
                 }
@@ -71,6 +72,7 @@ public class Main {
                     ConnectionClosed connectionClosed = new ConnectionClosed();
                     connectionClosed.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                     connectionClosed.setVisible(true);
+                    messageManager.onSocketClosed("");
                     stage2 = false;
                     stage3 = false;
                 }

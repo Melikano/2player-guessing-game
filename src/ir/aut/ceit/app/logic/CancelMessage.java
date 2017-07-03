@@ -35,7 +35,7 @@ public class CancelMessage extends BooleanTypeMessage {
 
     @Override
     public byte getMessageType() {
-        return MessageTypes.ACCEPT_MESSAGE;
+        return MessageTypes.CANCEL_MESSAGE;
     }
 
     public boolean ismCancel() {

@@ -68,10 +68,15 @@ class TcpChannel {
      * Try to close socket and input-output streams.
      */
     void closeChannel() throws IOException {
-
         mSocket.close();
-        mOutputStream.close();
-        mInputStream.close();
+        if(mOutputStream != null){
+            mOutputStream.close();
+        }
+        if(mInputStream != null){
+            mInputStream.close();
+        }
+
+
     }
 
     String getIp() {

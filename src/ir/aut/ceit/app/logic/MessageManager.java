@@ -191,11 +191,17 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     @Override
     public void onSocketClosed(String closedIp) {
-        for(NetworkHandler networkHandler : mNetworkHandlerList){
-            if (networkHandler.getmTcpChannel().getIp().equals(closedIp)) {
-                networkHandler.stopSelf();
-                break;
+        if(isHost) {
+            for (NetworkHandler networkHandler : mNetworkHandlerList) {
+                if (networkHandler.getmTcpChannel().getIp().equals(closedIp)) {
+                    networkHandler.stopSelf();
+                    break;
+                }
             }
+        }
+        else if(isGuest){
+            mNetworkHandlerList.get(0).stopSelf();
+            System.out.println("guest's socket closed");
         }
     }
 
