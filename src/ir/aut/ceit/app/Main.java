@@ -105,10 +105,15 @@ public class Main {
                 if (waitingForConnection.isRejected()) {
                     System.out.println("rejected");
                     messageManager.sendRejectMessage(waitingForConnection.getRejectedIp(), waitingForConnection.isRejected());
-                    messageManager.onSocketClosed(waitingForConnection.getRejectedIp());
+                    while (true){
+                        if(messageManager.isMessageSent(waitingForConnection.getRejectedIp())){
+                            messageManager.onSocketClosed(waitingForConnection.getRejectedIp());
+                            break;
+                        }
+                    }
                     waitingForConnection.setRejected(false);
                 }
-                if(messageManager.isGuestCancel()){
+                if (messageManager.isGuestCancel()) {
                     System.out.println("guest canceled");
                     waitingForConnection.cancelAConnection(messageManager.getCanceledIp());
                     messageManager.onSocketClosed(messageManager.getCanceledIp());

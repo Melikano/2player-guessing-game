@@ -22,6 +22,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     private String canceledIp;
     private String guestName;
 
+
     /**
      * Instantiate server socket handler and start it. (Call this constructor in host mode)
      */
@@ -139,17 +140,32 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
         hostAccept = message.ismAccept();
 
     }
+
     private void consumeRejectMessage(RejectMessage message) {
         message.deserialize();
         hostReject = message.ismReject();
 
     }
+
     private void consumeCancelMessage(CancelMessage message, String senderIp) {
         message.deserialize();
         guestCancel = message.ismCancel();
         canceledIp = senderIp;
 
     }
+
+    public boolean isMessageSent(String to) {
+        for (NetworkHandler networkHandler : mNetworkHandlerList) {
+            if (networkHandler.getmTcpChannel().getIp().equals(to)) {
+                if (networkHandler.isMessageSent()) {
+                    return true;
+                }
+                break;
+            }
+        }
+        return false;
+    }
+
 
     /**
      * Add network handler to the list.
@@ -191,15 +207,14 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     @Override
     public void onSocketClosed(String closedIp) {
-        if(isHost) {
+        if (isHost) {
             for (NetworkHandler networkHandler : mNetworkHandlerList) {
                 if (networkHandler.getmTcpChannel().getIp().equals(closedIp)) {
                     networkHandler.stopSelf();
                     break;
                 }
             }
-        }
-        else if(isGuest){
+        } else if (isGuest) {
             mNetworkHandlerList.get(0).stopSelf();
         }
     }
@@ -227,6 +242,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     public boolean isHostAccept() {
         return hostAccept;
     }
+
     public boolean isHostReject() {
         return hostReject;
     }

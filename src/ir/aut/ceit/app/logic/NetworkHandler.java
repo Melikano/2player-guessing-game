@@ -15,6 +15,7 @@ public class NetworkHandler extends Thread {
     private ReceivedMessageConsumer mConsumerThread;
     private boolean stopIsCalled = false;
     private INetworkHandlerCallback iNetworkHandlerCallback;
+    private boolean messageSent;
 
 
     public NetworkHandler(SocketAddress socketAddress, INetworkHandlerCallback iNetworkHandlerCallback) {
@@ -53,6 +54,7 @@ public class NetworkHandler extends Thread {
      */
     public void sendMessage(BaseMessage baseMessage) {
         mSendQueue.enqueue(baseMessage.getSerialized());
+        messageSent = false;
 
     }
 
@@ -68,10 +70,10 @@ public class NetworkHandler extends Thread {
 
             byte[] message = readChannel();
             if (!mSendQueue.isEmpty()) {
-
                 try {
                     byte[] sendMessage = mSendQueue.dequeue();
                     mTcpChannel.write(sendMessage);
+                    messageSent = true;
                 } catch (InterruptedException | IOException e) {
                     e.printStackTrace();
                 }
@@ -142,6 +144,10 @@ public class NetworkHandler extends Thread {
 
     public ReceivedMessageConsumer getmConsumerThread() {
         return mConsumerThread;
+    }
+
+    public boolean isMessageSent() {
+        return messageSent;
     }
 
     private class ReceivedMessageConsumer extends Thread {
