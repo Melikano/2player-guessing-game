@@ -201,7 +201,6 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
         }
         else if(isGuest){
             mNetworkHandlerList.get(0).stopSelf();
-            System.out.println("guest's socket closed");
         }
     }
 
