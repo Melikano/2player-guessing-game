@@ -84,9 +84,11 @@ public class Main {
                     stage3 = false;
                 }
             }
-            while (stage3) {
+            if(stage3){
                 chat.setVisible(true);
                 playFrame.setVisible(true);
+            }
+            while (stage3) {
                 if(playFrame.getMouseClickHandler().isClicked()) {
                     int x = playFrame.getMouseClickHandler().getX();
                     int y = playFrame.getMouseClickHandler().getY();
