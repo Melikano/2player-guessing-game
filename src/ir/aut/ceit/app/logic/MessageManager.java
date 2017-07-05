@@ -20,7 +20,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     private boolean hostReject;
     private boolean guestCancel;
     private String canceledIp;
-    private String guestName;
+    private String name;
     private int x;
     private int y;
 
@@ -85,10 +85,19 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
         }
     }
 
-    public void sendName(String name) {
+    public void sendName(String to, String name) {
         NameMessage nameMessage = new NameMessage(name);
         nameMessage.serialize();
-        mNetworkHandlerList.get(0).sendMessage(nameMessage);
+        if (isHost) {
+            for (NetworkHandler networkHandler : mNetworkHandlerList) {
+                if (networkHandler.getmTcpChannel().getIp().equals(to)) {
+                    networkHandler.sendMessage(nameMessage);
+                    break;
+                }
+            }
+        } else if (isGuest) {
+            mNetworkHandlerList.get(0).sendMessage(nameMessage);
+        }
     }
 
     public void sendAcceptMessage(String to, boolean isAccept) {
@@ -133,8 +142,12 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     private void consumeNameMessage(NameMessage message) {
         message.deserialize();
-        guestName = message.getmName();
+        name = message.getmName();
         gotName = true;
+        if(isGuest){
+            System.out.println(name);
+            System.exit(-1);
+        }
     }
 
     private void consumeAcceptMessage(AcceptMessage message) {
@@ -226,7 +239,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     }
 
     public String getName() {
-        return guestName;
+        return name;
     }
 
     public String getIp() {
