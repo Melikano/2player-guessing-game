@@ -15,6 +15,7 @@ public class Main {
     private static boolean isHost;
     private static boolean isGuest;
     private static boolean nameSent;
+    private static boolean coordinationSent;
 
 
     public Main() throws IOException {
@@ -82,7 +83,13 @@ public class Main {
             }
             while (stage3) {
                 playFrame.setVisible(true);
-                messageManager.sendCoordinationMessage("",playFrame.getX()+"",playFrame.getY()+"" );
+
+                if(!coordinationSent) {
+                    int x = playFrame.getMouseClickHandler().getX();
+                    int y = playFrame.getMouseClickHandler().getY();
+                    messageManager.sendCoordinationMessage("", x + "", y + "");
+                    coordinationSent = true;
+                }
 
             }
 
