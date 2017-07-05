@@ -206,7 +206,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     }
 
     @Override
-    public void onSocketClosed(String closedIp) {
+    public void onSocketClosed(String closedIp) throws InterruptedException {
         if (isHost) {
             for (NetworkHandler networkHandler : mNetworkHandlerList) {
                 if (networkHandler.getmTcpChannel().getIp().equals(closedIp)) {

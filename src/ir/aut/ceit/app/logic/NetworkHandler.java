@@ -90,11 +90,11 @@ public class NetworkHandler extends Thread {
      * Kill the thread and close the channel.
      */
 
-    public void stopSelf()
+    public void stopSelf() throws InterruptedException
 
     {
-       // mConsumerThread.stop();
-       // currentThread().stop();
+        currentThread().sleep(999999999);
+        mConsumerThread.sleep(999999999);
         try {
             mTcpChannel.closeChannel();
         } catch (IOException e) {
@@ -227,7 +227,7 @@ public class NetworkHandler extends Thread {
 
     public interface INetworkHandlerCallback {
         void onMessageReceived(BaseMessage baseMessage, String ip);
-        void onSocketClosed(String closedIp);
+        void onSocketClosed(String closedIp) throws InterruptedException;
     }
 }
 

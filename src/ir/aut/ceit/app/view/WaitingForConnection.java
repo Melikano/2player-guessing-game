@@ -126,6 +126,8 @@ public class WaitingForConnection extends JFrame {
 
             for (int i = 0; i < accButtons.size(); i++) {
                 if (event.getSource() == accButtons.get(i)) {
+                    rejButtons.get(i).setEnabled(false);
+                    accButtons.get(i).setEnabled(false);
                     System.out.println(names.get(i) + "  accepted");
                     accepted = true;
                     acceptedIp = ips.get(i);
