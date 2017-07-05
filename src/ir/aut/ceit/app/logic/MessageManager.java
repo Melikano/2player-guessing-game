@@ -23,6 +23,8 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     private String name;
     private int x;
     private int y;
+    private String textMessage;
+    private boolean gotTextMessage;
 
 
     /**
@@ -137,17 +139,14 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     private void consumeTextMessage(TextMessage message) {
         message.deserialize();
-        System.out.println(message.getText());
+        textMessage = message.getText();
+        gotTextMessage = true;
     }
 
     private void consumeNameMessage(NameMessage message) {
         message.deserialize();
         name = message.getmName();
         gotName = true;
-        if(isGuest){
-            System.out.println(name);
-            System.exit(-1);
-        }
     }
 
     private void consumeAcceptMessage(AcceptMessage message) {
@@ -280,5 +279,21 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     public int getY() {
         return y;
+    }
+
+    public String getTextMessage() {
+        return textMessage;
+    }
+
+    public void setTextMessage(String textMessage) {
+        this.textMessage = textMessage;
+    }
+
+    public boolean isGotTextMessage() {
+        return gotTextMessage;
+    }
+
+    public void setGotTextMessage(boolean gotTextMessage) {
+        this.gotTextMessage = gotTextMessage;
     }
 }

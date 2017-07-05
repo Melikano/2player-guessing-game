@@ -11,6 +11,7 @@ public class Chat extends JFrame {
 
     private JPanel messages = new JPanel(new GridLayout(50, 1));
     private String myMessage;
+    private boolean aMessageSent;
 
     public Chat(String name) {
         setLayout(new BorderLayout(10, 20));
@@ -40,6 +41,7 @@ public class Chat extends JFrame {
                 if (e.getSource() == sendButton) {
                     myMessage = mMessage.getText();
                     System.out.println(myMessage);
+                    aMessageSent = true;
                     displayMessage("Me", myMessage);
                 }
             }
@@ -73,4 +75,15 @@ public class Chat extends JFrame {
 
     }
 
+    public boolean isaMessageSent() {
+        return aMessageSent;
+    }
+
+    public void setaMessageSent(boolean aMessageSent) {
+        this.aMessageSent = aMessageSent;
+    }
+
+    public String getMyMessage() {
+        return myMessage;
+    }
 }

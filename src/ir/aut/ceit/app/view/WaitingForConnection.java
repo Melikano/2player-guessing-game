@@ -20,6 +20,7 @@ public class WaitingForConnection extends JFrame {
     private boolean accepted;
     private String rejectedIp;
     private String acceptedIp;
+    private String acceptedName;
 
 
     public WaitingForConnection() {
@@ -66,9 +67,10 @@ public class WaitingForConnection extends JFrame {
 
 
     }
-    public void cancelAConnection(String ip){
-        for(int i = 0; i < ips.size(); i++){
-            if(ips.get(i).equals(ip)){
+
+    public void cancelAConnection(String ip) {
+        for (int i = 0; i < ips.size(); i++) {
+            if (ips.get(i).equals(ip)) {
                 rejButtons.get(i).setEnabled(false);
                 accButtons.get(i).setEnabled(false);
             }
@@ -98,6 +100,10 @@ public class WaitingForConnection extends JFrame {
 
     public String getAcceptedIp() {
         return acceptedIp;
+    }
+
+    public String getAcceptedName() {
+        return acceptedName;
     }
 
     public void setAccepted(boolean accepted) {
@@ -131,6 +137,7 @@ public class WaitingForConnection extends JFrame {
                     System.out.println(names.get(i) + "  accepted");
                     accepted = true;
                     acceptedIp = ips.get(i);
+                    acceptedName = names.get(i);
                     nextStage = true;
                     break;
                 }
