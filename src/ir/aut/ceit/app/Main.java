@@ -78,8 +78,10 @@ public class Main {
                 }
             }
             while (stage3) {
-                PlayFiled p = new PlayFiled();
-                // attach the play field
+                PlayFrame playFrame = new PlayFrame();
+                playFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                playFrame.setVisible(true);
+
             }
 
         } else if (isHost && stage2) {
