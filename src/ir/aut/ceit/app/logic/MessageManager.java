@@ -69,7 +69,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     }
 
-    /*public void sendCoordinationMessage(String to, String coordinationX1, String coordinationY1) {
+    public void sendCoordinationMessage(String to, String coordinationX1, String coordinationY1) {
         CoordinationPlayMessage coordinationPlayMessage = new CoordinationPlayMessage(coordinationX1, coordinationY1);
         if (isHost) {
             for (NetworkHandler networkHandler : mNetworkHandlerList) {
@@ -81,7 +81,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
         } else if (isGuest) {
             mNetworkHandlerList.get(0).sendMessage(coordinationPlayMessage);
         }
-    }*/
+    }
 
     public void sendName(String name) {
         NameMessage nameMessage = new NameMessage(name);
@@ -119,8 +119,8 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     private void consumeCoordinationMessage(CoordinationPlayMessage message) {
         message.deserialize();
-        message.getCoordinationX();
-        message.getCoordinationY();
+        System.out.println(message.getCoordinationX());
+        System.out.println(message.getCoordinationY());
     }
 
 

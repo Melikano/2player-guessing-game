@@ -40,6 +40,9 @@ public class Main {
             MessageManager messageManager = new MessageManager(selectConnectionMode.getmIp(), selectConnectionMode.getmPort());
             PleaseWait pleaseWait = new PleaseWait();
             pleaseWait.setVisible(true);
+            PlayFrame playFrame = new PlayFrame();
+            playFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            playFrame.setVisible(false);
 
             while (stage2) {
                 if (messageManager.isStarted() && !nameSent) {
@@ -78,9 +81,8 @@ public class Main {
                 }
             }
             while (stage3) {
-                PlayFrame playFrame = new PlayFrame();
-                playFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 playFrame.setVisible(true);
+                messageManager.sendCoordinationMessage("",playFrame.getX()+"",playFrame.getY()+"" );
 
             }
 

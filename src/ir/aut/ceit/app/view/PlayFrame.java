@@ -25,6 +25,8 @@ private ArrayList<Rectangle> rects;
     private GraphicDragController rectthree2GD;
     private MouseClickHandler mouseClickHandler;
     private ForRotate rotating;
+    private int x;
+    private int y;
 
     private JButton rotate = new JButton("rotate");
 
@@ -72,7 +74,11 @@ rects = new ArrayList<Rectangle>();
         add(rotate, BorderLayout.SOUTH);
 
         setVisible(true);
-        addMouseListener(new MouseClickHandler());
+        addMouseListener(mouseClickHandler);
+        System.out.println(mouseClickHandler.getX());
+        System.out.println(mouseClickHandler.getY());
+        x = mouseClickHandler.getX();
+        y = mouseClickHandler.getY();
     }
 
     public void gameStart() {
@@ -99,6 +105,28 @@ rects = new ArrayList<Rectangle>();
     public void enemyHitandLose(int x, int y, boolean hit) {
         enemyPlay.hittedFromYou(x, y, hit);
 
+    }
+
+    public MouseClickHandler getMouseClickHandler() {
+        return mouseClickHandler;
+    }
+
+    @Override
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    @Override
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     private class Handler implements ActionListener {
