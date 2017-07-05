@@ -83,12 +83,13 @@ public class Main {
             }
             while (stage3) {
                 playFrame.setVisible(true);
-
-                if(!coordinationSent) {
+                if(playFrame.getMouseClickHandler().isClicked()) {
                     int x = playFrame.getMouseClickHandler().getX();
                     int y = playFrame.getMouseClickHandler().getY();
-                    messageManager.sendCoordinationMessage("", x + "", y + "");
-                    coordinationSent = true;
+                    if(x != 0 || y != 0){
+                        messageManager.sendCoordinationMessage("", x + "", y + "");
+                        playFrame.getMouseClickHandler().setClicked(false);
+                    }
                 }
 
             }

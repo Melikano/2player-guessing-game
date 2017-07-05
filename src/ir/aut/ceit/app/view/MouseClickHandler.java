@@ -7,11 +7,13 @@ import java.awt.event.MouseEvent;
  * Created by shsh9692 on 6/25/2017.
  */
 public class MouseClickHandler extends MouseAdapter {
+    private boolean isClicked;
     private int x;
     private int y;
 
     public void mouseClicked(MouseEvent event) {
         if (event.getX() < 400 && event.getY() < 400) {
+            isClicked = true;
             x = event.getX();
             y = event.getY();
         }
@@ -23,5 +25,13 @@ public class MouseClickHandler extends MouseAdapter {
 
     public int getY() {
         return y;
+    }
+
+    public boolean isClicked() {
+        return isClicked;
+    }
+
+    public void setClicked(boolean clicked) {
+        isClicked = clicked;
     }
 }
