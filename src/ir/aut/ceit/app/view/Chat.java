@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Chat extends JFrame {
 
@@ -45,15 +47,28 @@ public class Chat extends JFrame {
     }
 
     public void displayMessage(String from, String message){
-        JPanel messagePanel = new JPanel(new BorderLayout());
-        JLabel displayMessage = new JLabel(from + " : " + message+ "  ");
+
+        JPanel wholeMessage = new JPanel();
+        JLabel displayMessage  = new JLabel(from + " : " + message);
+        JPanel messagePanel = new JPanel(new GridLayout(2, 1));
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        String time = dtf.format(now);
+        JLabel timeLabel = new JLabel(time);
+
+        messagePanel.add(displayMessage);
+        messagePanel.add(timeLabel);
+
         if(from.equals("Me")){
-            messagePanel.add(displayMessage, BorderLayout.WEST);
+            wholeMessage.setLayout(new FlowLayout(FlowLayout.LEFT));
+            wholeMessage.add(messagePanel);
+
         }else {
-            messagePanel.add(displayMessage, BorderLayout.EAST);
+            wholeMessage.setLayout(new FlowLayout(FlowLayout.RIGHT));
+            wholeMessage.add(messagePanel);
         }
 
-        messages.add(messagePanel);
+        messages.add(wholeMessage);
         setVisible(true);
 
     }

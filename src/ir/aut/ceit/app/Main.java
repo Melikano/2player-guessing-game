@@ -44,6 +44,9 @@ public class Main {
             PlayFrame playFrame = new PlayFrame();
             playFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             playFrame.setVisible(false);
+            Chat chat = new Chat(messageManager.getName());
+            chat.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            chat.setVisible(false);
 
             while (stage2) {
                 if (messageManager.isStarted() && !nameSent) {
@@ -82,6 +85,7 @@ public class Main {
                 }
             }
             while (stage3) {
+                chat.setVisible(true);
                 playFrame.setVisible(true);
                 if(playFrame.getMouseClickHandler().isClicked()) {
                     int x = playFrame.getMouseClickHandler().getX();
@@ -92,6 +96,7 @@ public class Main {
                     }
                 }
 
+
             }
 
         } else if (isHost && stage2) {
@@ -99,9 +104,17 @@ public class Main {
             WaitingForConnection waitingForConnection = new WaitingForConnection();
             waitingForConnection.setVisible(true);
             waitingForConnection.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            PlayFrame playFrame = new PlayFrame();
+            playFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            playFrame.setVisible(false);
 
             while (stage2) {
                 System.out.println("k");
+
+                if(messageManager.isStarted() && !nameSent){
+                    messageManager.sendName(selectConnectionMode.getName());
+                    nameSent = true;
+                }
                 if (messageManager.isGotName()) {
                     System.out.println("got name");
                     waitingForConnection.addConnectionToGUI(messageManager.getName(), messageManager.getIp());
@@ -113,6 +126,8 @@ public class Main {
                     System.out.println("accepted");
                     messageManager.sendAcceptMessage(waitingForConnection.getAcceptedIp(), waitingForConnection.isAccepted());
                     waitingForConnection.setAccepted(false);
+                    stage3 = true;
+                    stage2 = false;
                 }
                 if (waitingForConnection.isRejected()) {
                     System.out.println("rejected");
@@ -131,7 +146,21 @@ public class Main {
                     messageManager.onSocketClosed(messageManager.getCanceledIp());
                     messageManager.setGuestCancel(false);
                 }
-                stage2 = waitingForConnection.isCurrStage();
+                stage2 = waitingForConnection.isCurrStage() && stage2;
+            }
+
+            while (stage3){
+                playFrame.setVisible(true);
+                if(playFrame.getMouseClickHandler().isClicked()) {
+                    int x = playFrame.getMouseClickHandler().getX();
+                    int y = playFrame.getMouseClickHandler().getY();
+                    if(x != 0 || y != 0){
+                        messageManager.sendCoordinationMessage(waitingForConnection.getAcceptedIp(), x + "", y + "");
+                        playFrame.getMouseClickHandler().setClicked(false);
+                    }
+                }
+
+
             }
 
         }

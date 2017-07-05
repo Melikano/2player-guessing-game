@@ -21,6 +21,8 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     private boolean guestCancel;
     private String canceledIp;
     private String guestName;
+    private int x;
+    private int y;
 
 
     /**
@@ -119,8 +121,8 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     private void consumeCoordinationMessage(CoordinationPlayMessage message) {
         message.deserialize();
-        System.out.println(message.getCoordinationX());
-        System.out.println(message.getCoordinationY());
+        x = Integer.parseInt(message.getCoordinationX());
+        y = Integer.parseInt(message.getCoordinationY());
     }
 
 
@@ -257,5 +259,13 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     public String getCanceledIp() {
         return canceledIp;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }
