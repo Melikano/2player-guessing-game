@@ -48,7 +48,7 @@ public class Main {
                     System.out.println("name was sent");
                     nameSent = true;
                 }
-                System.out.println("h");
+
                 if (messageManager.isHostAccept()) {
                     System.out.println("ow host accepted");
                     pleaseWait.setVisible(false);
@@ -115,7 +115,6 @@ public class Main {
             waitingForConnection.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
             while (stage2) {
-                System.out.println("k");
 
                 if (messageManager.isGotName()) {
                     System.out.println("got name");
@@ -161,8 +160,6 @@ public class Main {
                 chat.setVisible(true);
 
                 while (stage3) {
-
-                    System.out.println("t");
 
                     if(chat.isaMessageSent()){
                         messageManager.sendTextMessage(waitingForConnection.getAcceptedIp(), chat.getMyMessage());

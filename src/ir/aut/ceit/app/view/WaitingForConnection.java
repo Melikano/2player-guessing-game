@@ -64,6 +64,7 @@ public class WaitingForConnection extends JFrame {
         connectionPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
 
         connections.add(connectionPanel);
+        setVisible(true);
 
 
     }
