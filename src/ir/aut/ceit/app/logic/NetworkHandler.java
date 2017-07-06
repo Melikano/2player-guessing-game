@@ -16,6 +16,7 @@ public class NetworkHandler extends Thread {
     private boolean stopIsCalled = false;
     private INetworkHandlerCallback iNetworkHandlerCallback;
     private boolean messageSent;
+    private boolean isFirstMessage;
 
 
     public NetworkHandler(SocketAddress socketAddress, INetworkHandlerCallback iNetworkHandlerCallback) {
@@ -81,7 +82,10 @@ public class NetworkHandler extends Thread {
             } else if (message != null) {
                 mReceivedQueue.enqueue(message);
                 mConsumerThread.setSenderIp(this.getmTcpChannel().getIp());
-                mConsumerThread.start();
+                if(!isFirstMessage) {
+                    mConsumerThread.start();
+                    isFirstMessage = true;
+                }
             }
         }
     }

@@ -90,16 +90,10 @@ public class Main {
 
                 while (stage3) {
 
-
-                    System.out.print("");
-
                     if(chat.isaMessageSent()){
                         messageManager.sendTextMessage("", chat.getMyMessage());
                         chat.setaMessageSent(false);
                     }
-
-
-                    System.out.print("");
 
                     if (playFrame.getMouseClickHandler().isClicked()) {
                         int x = playFrame.getMouseClickHandler().getX();
@@ -177,16 +171,10 @@ public class Main {
 
                 while (stage3) {
 
-
-                    System.out.print("");
-
                     if(chat.isaMessageSent()){
                         messageManager.sendTextMessage(waitingForConnection.getAcceptedIp(), chat.getMyMessage());
                         chat.setaMessageSent(false);
                     }
-
-
-                    System.out.print("");
 
                    if (playFrame.getMouseClickHandler().isClicked()) {
                         int x = playFrame.getMouseClickHandler().getX();
