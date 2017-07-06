@@ -40,7 +40,6 @@ public class Chat extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == sendButton) {
                     myMessage = mMessage.getText();
-                    System.out.println(myMessage);
                     aMessageSent = true;
                     displayMessage("Me", myMessage);
                 }

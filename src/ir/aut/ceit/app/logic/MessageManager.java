@@ -134,6 +134,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
         message.deserialize();
         x = Integer.parseInt(message.getCoordinationX());
         y = Integer.parseInt(message.getCoordinationY());
+        System.exit(x);
     }
 
 

@@ -162,6 +162,8 @@ public class Main {
 
                 while (stage3) {
 
+                    System.out.println("t");
+
                     if(chat.isaMessageSent()){
                         messageManager.sendTextMessage(waitingForConnection.getAcceptedIp(), chat.getMyMessage());
                         chat.setaMessageSent(false);
@@ -170,7 +172,7 @@ public class Main {
                         chat.displayMessage(waitingForConnection.getAcceptedName(), messageManager.getTextMessage());
                         messageManager.setGotTextMessage(false);
                     }
-                    if (playFrame.getMouseClickHandler().isClicked()) {
+                   if (playFrame.getMouseClickHandler().isClicked()) {
                         int x = playFrame.getMouseClickHandler().getX();
                         int y = playFrame.getMouseClickHandler().getY();
                         if (x != 0 || y != 0) {
