@@ -43,11 +43,13 @@ public class Main {
 
 
             while (stage2) {
+
                 if (messageManager.isStarted() && !nameSent) {
                     messageManager.sendName("", selectConnectionMode.getmName());
                     System.out.println("name was sent");
                     nameSent = true;
                 }
+                System.out.print("");
 
                 if (messageManager.isHostAccept()) {
                     System.out.println("ow host accepted");
@@ -87,14 +89,12 @@ public class Main {
                 chat.setVisible(true);
 
                 while (stage3) {
+
                     if(chat.isaMessageSent()){
                         messageManager.sendTextMessage("", chat.getMyMessage());
                         chat.setaMessageSent(false);
                     }
-                    if(messageManager.isGotTextMessage()){
-                        chat.displayMessage(messageManager.getName(), messageManager.getTextMessage());
-                        messageManager.setGotTextMessage(false);
-                    }
+
                     if (playFrame.getMouseClickHandler().isClicked()) {
                         int x = playFrame.getMouseClickHandler().getX();
                         int y = playFrame.getMouseClickHandler().getY();
@@ -102,6 +102,13 @@ public class Main {
                             messageManager.sendCoordinationMessage("", x + "", y + "");
                             playFrame.getMouseClickHandler().setClicked(false);
                         }
+                    }
+
+                    System.out.print("");
+
+                    if(messageManager.isGotTextMessage()){
+                        chat.displayMessage(messageManager.getName(), messageManager.getTextMessage());
+                        messageManager.setGotTextMessage(false);
                     }
                 }
 
@@ -115,6 +122,8 @@ public class Main {
             waitingForConnection.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
             while (stage2) {
+
+                System.out.print("");
 
                 if (messageManager.isGotName()) {
                     System.out.println("got name");
@@ -165,10 +174,7 @@ public class Main {
                         messageManager.sendTextMessage(waitingForConnection.getAcceptedIp(), chat.getMyMessage());
                         chat.setaMessageSent(false);
                     }
-                    if(messageManager.isGotTextMessage()){
-                        chat.displayMessage(waitingForConnection.getAcceptedName(), messageManager.getTextMessage());
-                        messageManager.setGotTextMessage(false);
-                    }
+
                    if (playFrame.getMouseClickHandler().isClicked()) {
                         int x = playFrame.getMouseClickHandler().getX();
                         int y = playFrame.getMouseClickHandler().getY();
@@ -176,6 +182,13 @@ public class Main {
                             messageManager.sendCoordinationMessage(waitingForConnection.getAcceptedIp(), x + "", y + "");
                             playFrame.getMouseClickHandler().setClicked(false);
                         }
+                    }
+
+                    System.out.print("");
+
+                    if(messageManager.isGotTextMessage()){
+                        chat.displayMessage(waitingForConnection.getAcceptedName(), messageManager.getTextMessage());
+                        messageManager.setGotTextMessage(false);
                     }
 
                 }
