@@ -90,10 +90,16 @@ public class Main {
 
                 while (stage3) {
 
+
+                    System.out.print("");
+
                     if(chat.isaMessageSent()){
                         messageManager.sendTextMessage("", chat.getMyMessage());
                         chat.setaMessageSent(false);
                     }
+
+
+                    System.out.print("");
 
                     if (playFrame.getMouseClickHandler().isClicked()) {
                         int x = playFrame.getMouseClickHandler().getX();
@@ -160,6 +166,7 @@ public class Main {
                 stage2 = waitingForConnection.isCurrStage() && stage2;
             }
             if (stage3) {
+
                 PlayFrame playFrame = new PlayFrame();
                 playFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 playFrame.setVisible(true);
@@ -170,10 +177,16 @@ public class Main {
 
                 while (stage3) {
 
+
+                    System.out.print("");
+
                     if(chat.isaMessageSent()){
                         messageManager.sendTextMessage(waitingForConnection.getAcceptedIp(), chat.getMyMessage());
                         chat.setaMessageSent(false);
                     }
+
+
+                    System.out.print("");
 
                    if (playFrame.getMouseClickHandler().isClicked()) {
                         int x = playFrame.getMouseClickHandler().getX();
