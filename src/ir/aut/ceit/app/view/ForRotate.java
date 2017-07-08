@@ -12,10 +12,10 @@ import java.util.ArrayList;
 class ForRotate extends MouseInputAdapter {
     private PlayFiled component;
     boolean finishRotate = true;
-    private ArrayList <Rectangle >rect;
+    private ArrayList<Rectangle> rect;
     private boolean changable;
 
-    public ForRotate(PlayFiled gdad, ArrayList <Rectangle >rect, boolean changable) {
+    public ForRotate(PlayFiled gdad, ArrayList<Rectangle> rect, boolean changable) {
         component = gdad;
         component.addMouseListener(this);
         component.addMouseMotionListener(this);
@@ -25,22 +25,29 @@ class ForRotate extends MouseInputAdapter {
 
     public void mousePressed(MouseEvent e) {
 
-        if (changable ) {
+        if (changable) {
             Point p = e.getPoint();
             for (Rectangle rectangle : rect) {
 
 
-            if ( rectangle.contains(p)&& finishRotate ) {
+                if (rectangle.contains(p) && finishRotate) {
+                   // if (rectangle.getX() + rectangle.getWidth() < 400 && rectangle.getY() + rectangle.getHeight() < 400) {
+                        rectangle.setRect((int) rectangle.getX(), (int) rectangle.getY(), (int) rectangle.getHeight(), (int) rectangle.getWidth());
 
+                        component.setRect(rectangle, (int) rectangle.getX(), (int) rectangle.getY());
 
-                rectangle.setRect((int)  rectangle.getX(), (int)  rectangle.getY(), (int)  rectangle.getHeight(), (int)  rectangle.getWidth());
-                component.setRect( rectangle, (int)  rectangle.getX(), (int)  rectangle.getY());
+                        finishRotate = false;
+                        System.out.println(finishRotate);
 
-                 finishRotate = false;
-                System.out.println(finishRotate);
-            }}
+                    if (rectangle.getX() + rectangle.getWidth() <0 ||rectangle.getX() + rectangle.getWidth() > 400 || rectangle.getY() + rectangle.getHeight() > 400||rectangle.getY() + rectangle.getHeight()<0) {
+                        rectangle.setRect((int) rectangle.getX(), (int) rectangle.getY(), (int) rectangle.getHeight(), (int) rectangle.getWidth());
+
+                        component.setRect(rectangle, (int) rectangle.getX(), (int) rectangle.getY());
+                        System.out.println("sorry can not rotate");
+                    }
+            }
         }
-    }
+    }}
 
     public void mouseReleased(MouseEvent e) {
 

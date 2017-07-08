@@ -5,13 +5,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.sql.Array;
 import java.util.ArrayList;
 
 /**
  * Created by shsh9692 on 6/10/2017.
  */
 public class PlayFrame extends JFrame {
-private ArrayList<Rectangle> rects;
+    private ArrayList<Rectangle> rects;
     private PlayFiled play;
     private PlayFiled enemyPlay;
     private GraphicDragController rectTwo1GD;
@@ -23,17 +24,22 @@ private ArrayList<Rectangle> rects;
     private GraphicDragController rectOne4GD;
     private GraphicDragController rectthree1GD;
     private GraphicDragController rectthree2GD;
+    private GraphicDragController rectFourGD;
+    private JPanel jpanelBottons;
     private MouseClickHandler mouseClickHandler;
     private ForRotate rotating;
+    private JButton rotate = new JButton("rotate");
+    private JButton leave = new JButton("leave");
+    private JButton start = new JButton("Start");
     private int x;
     private int y;
 
-    private JButton rotate = new JButton("rotate");
 
     public PlayFrame() {
-        super("kk");
+        super("playFrame");
         setSize(1000, 1000);
-rects = new ArrayList<Rectangle>();
+        rects = new ArrayList<Rectangle>();
+        jpanelBottons = new JPanel();
         JPanel j = new JPanel();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -45,24 +51,26 @@ rects = new ArrayList<Rectangle>();
 
         j.add(play);
         play.paint2();
-        rectTwo1GD = new GraphicDragController(play, play.rectTwo1, true);
+        rectTwo1GD = new GraphicDragController(play, play.rectTwo1, true ,rects);
         rects.add(play.rectTwo1);
-        rectTwo2GD = new GraphicDragController(play, play.rectTwo2, true);
+        rectTwo2GD = new GraphicDragController(play, play.rectTwo2, true,rects);
         rects.add(play.rectTwo2);
-        rectTwo3GD = new GraphicDragController(play, play.rectTwo3, true);
+        rectTwo3GD = new GraphicDragController(play, play.rectTwo3, true,rects);
         rects.add(play.rectTwo3);
-        rectOne1GD = new GraphicDragController(play, play.rectOne1, true);
+        rectOne1GD = new GraphicDragController(play, play.rectOne1, true,rects);
         rects.add(play.rectOne1);
-        rectOne2GD = new GraphicDragController(play, play.rectOne2, true);
+        rectOne2GD = new GraphicDragController(play, play.rectOne2, true,rects);
         rects.add(play.rectOne2);
-        rectOne3GD = new GraphicDragController(play, play.rectOne3, true);
+        rectOne3GD = new GraphicDragController(play, play.rectOne3, true,rects);
         rects.add(play.rectOne3);
-        rectOne4GD = new GraphicDragController(play, play.rectOne4, true);
+        rectOne4GD = new GraphicDragController(play, play.rectOne4, true,rects);
         rects.add(play.rectOne4);
-        rectthree1GD = new GraphicDragController(play, play.rectthree1, true);
+        rectthree1GD = new GraphicDragController(play, play.rectthree1, true,rects);
         rects.add(play.rectthree1);
-        rectthree2GD = new GraphicDragController(play, play.rectthree2, true);
+        rectthree2GD = new GraphicDragController(play, play.rectthree2, true,rects);
         rects.add(play.rectthree2);
+        rectFourGD = new GraphicDragController(play, play.rectFour, true,rects);
+        rects.add(play.rectFour);
 
         mouseClickHandler = new MouseClickHandler();
         j.setLayout(new GridLayout());
@@ -70,8 +78,16 @@ rects = new ArrayList<Rectangle>();
         add(j);
         rotate.setMnemonic(KeyEvent.VK_R);
         rotate.addActionListener(new Handler());
+        leave.addActionListener(new Handler());
+        start.addActionListener(new Handler());
         rotate.setSize(10, 10);
-        add(rotate, BorderLayout.SOUTH);
+        leave.setSize(10, 10);
+        jpanelBottons.add(rotate);
+        jpanelBottons.add(leave);
+        jpanelBottons.add(start);
+
+        add(jpanelBottons, BorderLayout.SOUTH);
+
 
         setVisible(true);
         addMouseListener(mouseClickHandler);
@@ -79,6 +95,11 @@ rects = new ArrayList<Rectangle>();
         System.out.println(mouseClickHandler.getY());
         x = mouseClickHandler.getX();
         y = mouseClickHandler.getY();
+    }
+
+
+    public MouseClickHandler getMouseClickHandler() {
+        return mouseClickHandler;
     }
 
     public void gameStart() {
@@ -91,6 +112,7 @@ rects = new ArrayList<Rectangle>();
         rectOne4GD.setChangable(false);
         rectthree1GD.setChangable(false);
         rectthree2GD.setChangable(false);
+        rectFourGD.setChangable(false);
         rotate.setEnabled(false);
     }
 
@@ -102,44 +124,41 @@ rects = new ArrayList<Rectangle>();
     }
 
 
-    public void enemyHitandLose(int x, int y, boolean hit) {
-        enemyPlay.hittedFromYou(x, y, hit);
+     // public void enemyHitandLose(int x, int y, boolean hit, int kindOfRec) {
+    public void enemyHitandLose(String messege) {
+        String[] array;
+      array = messege.split("&");
+//        enemyPlay.hittedFromYou(120, 120,1, 3);
 
-    }
-
-    public MouseClickHandler getMouseClickHandler() {
-        return mouseClickHandler;
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
+        enemyPlay.hittedFromYou(Integer.parseInt(array[array.length - 2]), Integer.parseInt(array[array.length - 1]), Integer.parseInt(array[1]), Integer.parseInt(array[0]) , Integer.parseInt(array[2]) );
+       // enemyPlay.hittedFromYou(120, 120,1, 3);
+         // enemyPlay. hittedFromYou(x,y,kindOfRec,hit);
     }
 
     private class Handler implements ActionListener {
-        int counter;
-        int counter1;
-        int counter2;
 
         @Override
         public void actionPerformed(ActionEvent event) {
             if (event.getSource() == rotate) {
-                rotating = new ForRotate(play,rects, true);
+                rotating = new ForRotate(play, rects, true);
                 System.out.println("you can rotate");
 
+
+            }
+            if (event.getSource() == start) {
+                gameStart();
+
+
+            }
+            if (event.getSource() == leave) {
+                // myHitandLose(10,10);
+                //myHitandLose(130,10);
+                //myHitandLose(130,10);
+                myHitandLose(90, 10);
+                myHitandLose(130, 130);
+                myHitandLose(130, 170);
+                myHitandLose(135, 210);
+                myHitandLose(90, 45);
 
             }
         }

@@ -8,8 +8,7 @@ import java.util.ArrayList;
 public class FirstCordination {
     private int x;
     private int y;
-    private int width;
-    private int lenght;
+
 
     public FirstCordination(int x1, int y1) {
         x = x1;
