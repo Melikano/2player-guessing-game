@@ -15,6 +15,8 @@ public class Main {
     private static boolean isHost;
     private static boolean isGuest;
     private static boolean nameSent;
+    private static int lastX;
+    private static int lastY;
 
 
     public Main() throws IOException {
@@ -90,7 +92,7 @@ public class Main {
 
                 while (stage3) {
 
-                    if(chat.isaMessageSent()){
+                    if (chat.isaMessageSent()) {
                         messageManager.sendTextMessage("", chat.getMyMessage());
                         chat.setaMessageSent(false);
                     }
@@ -98,13 +100,14 @@ public class Main {
                     if (playFrame.getMouseClickHandler().isClicked()) {
                         int x = playFrame.getMouseClickHandler().getX();
                         int y = playFrame.getMouseClickHandler().getY();
-                        if (x != 0 || y != 0) {
+                        if(x != lastX && y != lastY){
+                            System.out.println("x : " + x + "y : " + y);
                             messageManager.sendCoordinationMessage("", x + "", y + "");
-                            playFrame.getMouseClickHandler().setClicked(false);
                         }
+                        playFrame.getMouseClickHandler().setClicked(false);
                     }
 
-                    if(messageManager.isGotCoordination()){
+                    if (messageManager.isGotCoordination()) {
                         String str = playFrame.myHitandLose(messageManager.getX(), messageManager.getY());
                         System.out.println("sent : " + str);
                         messageManager.sendIsHitCoordinationMessage("", str);
@@ -113,12 +116,12 @@ public class Main {
 
                     System.out.print("");
 
-                    if(messageManager.isGotTextMessage()){
+                    if (messageManager.isGotTextMessage()) {
                         chat.displayMessage(messageManager.getName(), messageManager.getTextMessage());
                         messageManager.setGotTextMessage(false);
                     }
 
-                    if(messageManager.isGotIsHitCoordinationMessage()){
+                    if (messageManager.isGotIsHitCoordinationMessage()) {
                         playFrame.enemyHitandLose(messageManager.getHitCoordination());
                         messageManager.setGotIsHitCoordinationMessage(false);
                     }
@@ -183,21 +186,22 @@ public class Main {
 
                 while (stage3) {
 
-                    if(chat.isaMessageSent()){
+                    if (chat.isaMessageSent()) {
                         messageManager.sendTextMessage(waitingForConnection.getAcceptedIp(), chat.getMyMessage());
                         chat.setaMessageSent(false);
                     }
 
-                   if (playFrame.getMouseClickHandler().isClicked()) {
+                    if (playFrame.getMouseClickHandler().isClicked()) {
                         int x = playFrame.getMouseClickHandler().getX();
                         int y = playFrame.getMouseClickHandler().getY();
-                        if (x != 0 || y != 0) {
+                        if( x != lastX && y != lastY) {
+                            System.out.println("x : " + x + "y : " + y);
                             messageManager.sendCoordinationMessage(waitingForConnection.getAcceptedIp(), x + "", y + "");
-                            playFrame.getMouseClickHandler().setClicked(false);
                         }
+                        playFrame.getMouseClickHandler().setClicked(false);
                     }
 
-                    if(messageManager.isGotCoordination()){
+                    if (messageManager.isGotCoordination()) {
                         String str = playFrame.myHitandLose(messageManager.getX(), messageManager.getY());
                         System.out.println("sent : " + str);
                         messageManager.sendIsHitCoordinationMessage(waitingForConnection.getAcceptedIp(), str);
@@ -206,12 +210,12 @@ public class Main {
 
                     System.out.print("");
 
-                    if(messageManager.isGotTextMessage()){
+                    if (messageManager.isGotTextMessage()) {
                         chat.displayMessage(waitingForConnection.getAcceptedName(), messageManager.getTextMessage());
                         messageManager.setGotTextMessage(false);
                     }
 
-                    if(messageManager.isGotIsHitCoordinationMessage()){
+                    if (messageManager.isGotIsHitCoordinationMessage()) {
                         playFrame.enemyHitandLose(messageManager.getHitCoordination());
                         messageManager.setGotIsHitCoordinationMessage(false);
                     }

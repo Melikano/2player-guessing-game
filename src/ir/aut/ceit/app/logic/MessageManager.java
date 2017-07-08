@@ -78,6 +78,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     }
 
     public void sendCoordinationMessage(String to, String coordinationX1, String coordinationY1) {
+        System.out.println("sending x = " + coordinationX1 + "sending y = " + coordinationY1);
         CoordinationPlayMessage coordinationPlayMessage = new CoordinationPlayMessage(coordinationX1, coordinationY1);
         if (isHost) {
             for (NetworkHandler networkHandler : mNetworkHandlerList) {

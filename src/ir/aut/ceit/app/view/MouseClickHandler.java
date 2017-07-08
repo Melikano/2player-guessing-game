@@ -16,6 +16,7 @@ public class MouseClickHandler extends MouseAdapter {
             isClicked = true;
             x = event.getX();
             y = event.getY() - 40;
+            System.out.println("mousX : " + x + "mousY : " + y);
         }
     }
 

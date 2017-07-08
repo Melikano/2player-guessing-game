@@ -91,10 +91,10 @@ public class PlayFrame extends JFrame {
 
         setVisible(true);
         addMouseListener(mouseClickHandler);
-        System.out.println(mouseClickHandler.getX());
+        /*System.out.println(mouseClickHandler.getX());
         System.out.println(mouseClickHandler.getY());
         x = mouseClickHandler.getX();
-        y = mouseClickHandler.getY();
+        y = mouseClickHandler.getY();*/
     }
 
 
