@@ -12,6 +12,7 @@ public class Chat extends JFrame {
     private JPanel messages = new JPanel(new GridLayout(50, 1));
     private String myMessage;
     private boolean aMessageSent;
+    private String time;
 
     public Chat(String name) {
         setLayout(new BorderLayout(10, 20));
@@ -54,7 +55,7 @@ public class Chat extends JFrame {
         JPanel messagePanel = new JPanel(new GridLayout(2, 1));
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
-        String time = dtf.format(now);
+        time = dtf.format(now);
         JLabel timeLabel = new JLabel(time);
 
         messagePanel.add(displayMessage);
@@ -84,5 +85,9 @@ public class Chat extends JFrame {
 
     public String getMyMessage() {
         return myMessage;
+    }
+
+    public String getTime() {
+        return time;
     }
 }

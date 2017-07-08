@@ -1,10 +1,13 @@
 package ir.aut.ceit.app;
 
 import ir.aut.ceit.app.logic.MessageManager;
+import ir.aut.ceit.app.model.WriteToJSon;
 import ir.aut.ceit.app.view.*;
 
 import javax.swing.*;
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 public class Main {
@@ -236,6 +239,13 @@ public class Main {
                 chat.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 chat.setVisible(true);
 
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mmHH:mm");
+                LocalDateTime now = LocalDateTime.now();
+                String timeAsId = dtf.format(now);
+
+                WriteToJSon writer = new WriteToJSon(waitingForConnection.getAcceptedIp(), timeAsId, messageManager.getName());
+
+
                 double random = Math.random();
                 if (random > 0.5) {
                     myTurn = true;
@@ -257,6 +267,7 @@ public class Main {
 
                     if (chat.isaMessageSent()) {
                         messageManager.sendTextMessage(waitingForConnection.getAcceptedIp(), chat.getMyMessage());
+                        writer.addMes("Me", chat.getMyMessage(), chat.getTime());
                         chat.setaMessageSent(false);
                     }
 
@@ -295,6 +306,7 @@ public class Main {
                         youLeftTheGame.setVisible(true);
                         messageManager.onSocketClosed(waitingForConnection.getAcceptedIp());
                         playFrame.setLeaved(false);
+                        writer.output();
                         stage3 = false;
                     }
 
@@ -310,6 +322,7 @@ public class Main {
                         leftTheGame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                         leftTheGame.setVisible(true);
                         messageManager.onSocketClosed(waitingForConnection.getAcceptedIp());
+                        writer.output();
                         stage3 = false;
                     }
 
@@ -317,6 +330,7 @@ public class Main {
 
                     if (messageManager.isGotTextMessage()) {
                         chat.displayMessage(waitingForConnection.getAcceptedName(), messageManager.getTextMessage());
+                        writer.addMes(waitingForConnection.getAcceptedName(), messageManager.getTextMessage(), chat.getTime());
                         messageManager.setGotTextMessage(false);
                     }
 
