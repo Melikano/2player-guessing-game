@@ -170,6 +170,7 @@ public class PlayFrame extends JFrame {
             if (event.getSource() == start) {
                 gameStart();
                 started = true;
+                System.out.println("game started");
 
             }
             if (event.getSource() == leave) {

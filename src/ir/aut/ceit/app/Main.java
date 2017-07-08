@@ -15,6 +15,7 @@ public class Main {
     private static boolean isHost;
     private static boolean isGuest;
     private static boolean nameSent;
+    private static boolean firstClick;
 
 
     public Main() throws IOException {
@@ -98,6 +99,12 @@ public class Main {
                     if (playFrame.getMouseClickHandler().isClicked() && messageManager.isGameStart()) {
                         while (true) {
                             System.out.println("t");
+
+                            if(!firstClick){
+                                firstClick = true;
+                                break;
+                            }
+
                             if (playFrame.getMouseClickHandler().isCoordinationUpdated()) {
                                 int x = playFrame.getMouseClickHandler().getX();
                                 int y = playFrame.getMouseClickHandler().getY();
@@ -225,6 +232,10 @@ public class Main {
                     if (playFrame.getMouseClickHandler().isClicked() && messageManager.isGameStart()) {
                         while (true) {
                             System.out.println("t");
+                            if(!firstClick){
+                                firstClick = true;
+                                break;
+                            }
                             if (playFrame.getMouseClickHandler().isCoordinationUpdated()) {
                                 int x = playFrame.getMouseClickHandler().getX();
                                 int y = playFrame.getMouseClickHandler().getY();
