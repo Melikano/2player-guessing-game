@@ -11,8 +11,6 @@ public class NameMessage extends TextMessage{
     }
 
     public NameMessage(byte[] serialized) {
-        //mSerialized = serialized;
-        //deserialize();
         super(serialized);
     }
 

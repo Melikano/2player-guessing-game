@@ -116,11 +116,9 @@ public class PlayFrame extends JFrame {
         rotate.setEnabled(false);
     }
 
-    public Boolean myHitandLose(int x, int y) {
+    public String myHitandLose(int x, int y) {
 
-        play.hittedFromenemy(x, y);
-        return true;
-
+       return play.hittedFromenemy(x, y);
     }
 
 

@@ -82,7 +82,7 @@ public class NetworkHandler extends Thread {
             } else if (message != null) {
                 mReceivedQueue.enqueue(message);
                 mConsumerThread.setSenderIp(this.getmTcpChannel().getIp());
-                if(!isFirstMessage) {
+                if (!isFirstMessage) {
                     mConsumerThread.start();
                     isFirstMessage = true;
                 }
@@ -162,6 +162,7 @@ public class NetworkHandler extends Thread {
          * * else if receivedQueue is empty, then sleep 100 ms.
          */
         String senderIp;
+
         @Override
         public void run() {
 
@@ -189,6 +190,9 @@ public class NetworkHandler extends Thread {
                                 break;
                             case MessageTypes.CANCEL_MESSAGE:
                                 iNetworkHandlerCallback.onMessageReceived(new CancelMessage(message), senderIp);
+                                break;
+                            case MessageTypes.ISHITCOORDINATION_MESSAGE:
+                                iNetworkHandlerCallback.onMessageReceived(new IsHitCoordinationMessage(message), senderIp);
                                 break;
                         }
                     } catch (InterruptedException e) {
@@ -223,7 +227,7 @@ public class NetworkHandler extends Thread {
             }
         }
 
-        private void setSenderIp(String ip){
+        private void setSenderIp(String ip) {
             senderIp = ip;
         }
     }
@@ -231,6 +235,7 @@ public class NetworkHandler extends Thread {
 
     public interface INetworkHandlerCallback {
         void onMessageReceived(BaseMessage baseMessage, String ip);
+
         void onSocketClosed(String closedIp) throws InterruptedException;
     }
 }

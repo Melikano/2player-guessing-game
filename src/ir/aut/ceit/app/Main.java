@@ -104,6 +104,10 @@ public class Main {
                         }
                     }
 
+                    if(messageManager.isGotCoordination()){
+                        messageManager.sendIsHitCoordinationMessage("", playFrame.myHitandLose(messageManager.getX(), messageManager.getY()));
+                    }
+
                     System.out.print("");
 
                     if(messageManager.isGotTextMessage()){
@@ -183,6 +187,10 @@ public class Main {
                             messageManager.sendCoordinationMessage(waitingForConnection.getAcceptedIp(), x + "", y + "");
                             playFrame.getMouseClickHandler().setClicked(false);
                         }
+                    }
+
+                    if(messageManager.isGotCoordination()){
+                        messageManager.sendIsHitCoordinationMessage(waitingForConnection.getAcceptedIp(), playFrame.myHitandLose(messageManager.getX(), messageManager.getY()));
                     }
 
                     System.out.print("");

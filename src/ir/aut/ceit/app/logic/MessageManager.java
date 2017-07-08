@@ -23,8 +23,12 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     private String name;
     private int x;
     private int y;
+    private boolean gotCoordination;
     private String textMessage;
     private boolean gotTextMessage;
+    private String hitCoordination;
+    private boolean gotIsHitCoordinationMessage;
+
 
 
     /**
@@ -130,10 +134,27 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
         mNetworkHandlerList.get(0).sendMessage(cancelMessage);
     }
 
+    public void sendIsHitCoordinationMessage(String to, String hitCoordination){
+        IsHitCoordinationMessage isHitCoordinationMessage = new IsHitCoordinationMessage(hitCoordination);
+        isHitCoordinationMessage.serialize();
+        if (isHost) {
+            for (NetworkHandler networkHandler : mNetworkHandlerList) {
+                if (networkHandler.getmTcpChannel().getIp().equals(to)) {
+                    networkHandler.sendMessage(isHitCoordinationMessage);
+                    break;
+                }
+            }
+        } else if (isGuest) {
+            mNetworkHandlerList.get(0).sendMessage(isHitCoordinationMessage);
+        }
+
+    }
+
     private void consumeCoordinationMessage(CoordinationPlayMessage message) {
         message.deserialize();
         x = Integer.parseInt(message.getCoordinationX());
         y = Integer.parseInt(message.getCoordinationY());
+        gotCoordination = true;
         System.out.println("x is " + x + " y is " + y);
     }
 
@@ -167,6 +188,12 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
         guestCancel = message.ismCancel();
         canceledIp = senderIp;
 
+    }
+
+    private void consumeIsHitCoordinationMessage(IsHitCoordinationMessage message){
+        message.deserialize();
+        hitCoordination = message.getmHitCoordination();
+        gotIsHitCoordinationMessage = true;
     }
 
     public boolean isMessageSent(String to) {
@@ -216,7 +243,9 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
             case MessageTypes.CANCEL_MESSAGE:
                 consumeCancelMessage((CancelMessage) baseMessage, senderIp);
                 break;
-
+            case MessageTypes.ISHITCOORDINATION_MESSAGE :
+                consumeIsHitCoordinationMessage((IsHitCoordinationMessage) baseMessage);
+                break;
         }
     }
 
@@ -286,15 +315,31 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
         return textMessage;
     }
 
-    public void setTextMessage(String textMessage) {
-        this.textMessage = textMessage;
-    }
-
     public boolean isGotTextMessage() {
         return gotTextMessage;
     }
 
     public void setGotTextMessage(boolean gotTextMessage) {
         this.gotTextMessage = gotTextMessage;
+    }
+
+    public String getHitCoordination() {
+        return hitCoordination;
+    }
+
+    public boolean isGotIsHitCoordinationMessage() {
+        return gotIsHitCoordinationMessage;
+    }
+
+    public void setGotIsHitCoordinationMessage(boolean gotIsHitCoordinationMessage) {
+        this.gotIsHitCoordinationMessage = gotIsHitCoordinationMessage;
+    }
+
+    public boolean isGotCoordination() {
+        return gotCoordination;
+    }
+
+    public void setGotCoordination(boolean gotCoordination) {
+        this.gotCoordination = gotCoordination;
     }
 }

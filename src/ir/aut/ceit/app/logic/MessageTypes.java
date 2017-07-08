@@ -15,4 +15,6 @@ public class MessageTypes {
     public static final byte ACCEPT_MESSAGE = 4;
     public static final byte REJECT_MESSAGE = 5;
     public static final byte CANCEL_MESSAGE = 6;
+    public static final byte ISHITCOORDINATION_MESSAGE = 7;
+
 }
