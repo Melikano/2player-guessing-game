@@ -35,7 +35,7 @@ public class FirstTurnSpecifier extends BooleanTypeMessage {
 
     @Override
     public byte getMessageType() {
-        return MessageTypes.REJECT_MESSAGE;
+        return MessageTypes.FIRSTTURN_MESSAGE;
     }
 
     public boolean ismIsYourTurn() {

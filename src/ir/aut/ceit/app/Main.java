@@ -100,6 +100,7 @@ public class Main {
 
                     if (messageManager.isYourTurn() && messageManager.isGameStart() && playFrame.isStarted()) {
                         playFrame.changingFields("1");
+                        messageManager.setYourTurn(false);
                     }
 
                     if (chat.isaMessageSent()) {
@@ -251,6 +252,7 @@ public class Main {
 
                     if (myTurn && messageManager.isGameStart() && playFrame.isStarted()) {
                         playFrame.changingFields("1");
+                        myTurn = false;
                     }
 
                     if (chat.isaMessageSent()) {
