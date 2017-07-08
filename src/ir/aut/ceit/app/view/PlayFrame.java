@@ -5,12 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.sql.Array;
 import java.util.ArrayList;
 
-/**
- * Created by shsh9692 on 6/10/2017.
- */
 public class PlayFrame extends JFrame {
     private ArrayList<Rectangle> rects;
     private PlayFiled play;
@@ -133,28 +129,24 @@ public class PlayFrame extends JFrame {
 //        enemyPlay.hittedFromYou(120, 120,1, 3);
         if (array[0].equals("1")) {
             enemyPlay.hittedFromYou(Integer.parseInt(array[array.length - 2]), Integer.parseInt(array[array.length - 1]), Integer.parseInt(array[1]), Integer.parseInt(array[0]), Integer.parseInt(array[2]));
+            changingFields(messege);
             // enemyPlay.hittedFromYou(120, 120,1, 3);
             // enemyPlay. hittedFromYou(x,y,kindOfRec,hit);
         } else {
             enemyPlay.hittedFromYou(Integer.parseInt(array[array.length - 2]), Integer.parseInt(array[array.length - 1]), 0, Integer.parseInt(array[0]), 0);
-
+            changingFields(messege);
         }
     }
 
-    public boolean isLeaved() {
-        return leaved;
-    }
-
-    public void setLeaved(boolean leaved) {
-        this.leaved = leaved;
-    }
-
-    public boolean isStarted() {
-        return started;
-    }
-
-    public void setStarted(boolean started) {
-        this.started = started;
+    private void changingFields(String messege) {
+        if (messege.charAt(0) == '1') {
+            enemyPlay.setVisible(false);
+            play.setVisible(true);
+        }
+        if (messege.charAt(0) == '0') {
+            play.setVisible(false);
+            play.setVisible(true);
+        }
     }
 
     private class Handler implements ActionListener {
@@ -170,7 +162,6 @@ public class PlayFrame extends JFrame {
             if (event.getSource() == start) {
                 gameStart();
                 started = true;
-                System.out.println("game started");
 
             }
             if (event.getSource() == leave) {
@@ -202,6 +193,3 @@ public class PlayFrame extends JFrame {
 
 
 }
-
-
-
