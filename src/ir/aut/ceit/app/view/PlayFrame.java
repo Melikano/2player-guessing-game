@@ -118,7 +118,9 @@ public class PlayFrame extends JFrame {
 
     public String myHitandLose(int x, int y) {
 
-        return play.hittedFromenemy(x, y);
+        String result = play.hittedFromenemy(x, y);
+        myChangingFields(result);
+        return result;
     }
 
 
@@ -147,6 +149,19 @@ public class PlayFrame extends JFrame {
         if (messege.charAt(0) == '1') {
             play.setVisible(false);
             enemyPlay.setVisible(true);
+            setVisible(true);
+        }
+    }
+
+    public void myChangingFields(String messege) {
+        if (messege.charAt(0) == '0') {
+            enemyPlay.setVisible(true);
+            play.setVisible(false);
+            setVisible(true);
+        }
+        if (messege.charAt(0) == '1') {
+            play.setVisible(true);
+            enemyPlay.setVisible(false);
             setVisible(true);
         }
     }

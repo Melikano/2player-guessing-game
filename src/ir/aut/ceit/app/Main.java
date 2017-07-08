@@ -263,10 +263,11 @@ public class Main {
                     if (playFrame.getMouseClickHandler().isClicked() && messageManager.isGameStart() && playFrame.isStarted()) {
                         while (true) {
                             System.out.println("t");
-                            if (!firstClick) {
+                            /*if (!firstClick) {
                                 firstClick = true;
                                 break;
-                            }
+                            }*/
+
                             if (playFrame.getMouseClickHandler().isCoordinationUpdated()) {
                                 int x = playFrame.getMouseClickHandler().getX();
                                 int y = playFrame.getMouseClickHandler().getY();
