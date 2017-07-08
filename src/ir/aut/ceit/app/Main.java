@@ -15,8 +15,6 @@ public class Main {
     private static boolean isHost;
     private static boolean isGuest;
     private static boolean nameSent;
-    private static int lastX;
-    private static int lastY;
 
 
     public Main() throws IOException {
@@ -98,11 +96,14 @@ public class Main {
                     }
 
                     if (playFrame.getMouseClickHandler().isClicked()) {
-                        int x = playFrame.getMouseClickHandler().getX();
-                        int y = playFrame.getMouseClickHandler().getY();
-                        if(x != lastX && y != lastY){
-                            System.out.println("x : " + x + "y : " + y);
-                            messageManager.sendCoordinationMessage("", x + "", y + "");
+                        while (true) {
+                            if (playFrame.getMouseClickHandler().isCoordinationUpdated()) {
+                                int x = playFrame.getMouseClickHandler().getX();
+                                int y = playFrame.getMouseClickHandler().getY();
+                                System.out.println("x : " + x + "y : " + y);
+                                messageManager.sendCoordinationMessage("", x + "", y + "");
+                                break;
+                            }
                         }
                         playFrame.getMouseClickHandler().setClicked(false);
                     }
@@ -192,11 +193,14 @@ public class Main {
                     }
 
                     if (playFrame.getMouseClickHandler().isClicked()) {
-                        int x = playFrame.getMouseClickHandler().getX();
-                        int y = playFrame.getMouseClickHandler().getY();
-                        if( x != lastX && y != lastY) {
-                            System.out.println("x : " + x + "y : " + y);
-                            messageManager.sendCoordinationMessage(waitingForConnection.getAcceptedIp(), x + "", y + "");
+                        while (true) {
+                            if (playFrame.getMouseClickHandler().isCoordinationUpdated()) {
+                                int x = playFrame.getMouseClickHandler().getX();
+                                int y = playFrame.getMouseClickHandler().getY();
+                                System.out.println("x : " + x + "y : " + y);
+                                messageManager.sendCoordinationMessage(waitingForConnection.getAcceptedIp(), x + "", y + "");
+                                break;
+                            }
                         }
                         playFrame.getMouseClickHandler().setClicked(false);
                     }
