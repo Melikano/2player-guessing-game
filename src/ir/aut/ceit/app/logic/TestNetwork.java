@@ -7,7 +7,7 @@ public class TestNetwork {
 
         MessageManager messageManager = new MessageManager("127.0.0.1", 5000);
 
-        while (!messageManager.isStarted()) {
+        while (!messageManager.isconnectionStarted()) {
             System.out.println("not yet");
         }
 

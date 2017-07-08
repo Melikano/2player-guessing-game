@@ -3,9 +3,6 @@ package ir.aut.ceit.app.view;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-/**
- * Created by shsh9692 on 6/25/2017.
- */
 public class MouseClickHandler extends MouseAdapter {
     private boolean isClicked;
     private int x;

@@ -294,6 +294,9 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
             case MessageTypes.LEAVE_MESSAGE :
                 consumeLeaveMessage((LeaveMessage) baseMessage);
                 break;
+            case MessageTypes.START_MESSAGE :
+                consumeStartMessage((StartMessage) baseMessage);
+                break;
         }
     }
 

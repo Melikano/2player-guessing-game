@@ -97,7 +97,7 @@ public class Main {
 
                     if (playFrame.getMouseClickHandler().isClicked() && messageManager.isGameStart()) {
                         while (true) {
-                            System.out.println("");
+                            System.out.println("t");
                             if (playFrame.getMouseClickHandler().isCoordinationUpdated()) {
                                 int x = playFrame.getMouseClickHandler().getX();
                                 int y = playFrame.getMouseClickHandler().getY();
@@ -224,7 +224,7 @@ public class Main {
 
                     if (playFrame.getMouseClickHandler().isClicked() && messageManager.isGameStart()) {
                         while (true) {
-                            System.out.println("");
+                            System.out.println("t");
                             if (playFrame.getMouseClickHandler().isCoordinationUpdated()) {
                                 int x = playFrame.getMouseClickHandler().getX();
                                 int y = playFrame.getMouseClickHandler().getY();
@@ -250,7 +250,7 @@ public class Main {
                         YouLeftTheGame youLeftTheGame = new YouLeftTheGame();
                         youLeftTheGame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                         youLeftTheGame.setVisible(true);
-                        messageManager.onSocketClosed("");
+                        messageManager.onSocketClosed(waitingForConnection.getAcceptedIp());
                         playFrame.setLeaved(false);
                         stage3 = false;
                     }
@@ -266,7 +266,7 @@ public class Main {
                         OpponentLeftTheGame leftTheGame = new OpponentLeftTheGame();
                         leftTheGame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                         leftTheGame.setVisible(true);
-                        messageManager.onSocketClosed("");
+                        messageManager.onSocketClosed(waitingForConnection.getAcceptedIp());
                         stage3 = false;
                     }
 
