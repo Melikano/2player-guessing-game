@@ -33,6 +33,8 @@ public class PlayFrame extends JFrame {
     private JButton start = new JButton("Start");
     private int x;
     private int y;
+    private boolean leaved = false;
+    private boolean started = false;
 
 
     public PlayFrame() {
@@ -51,25 +53,25 @@ public class PlayFrame extends JFrame {
 
         j.add(play);
         play.paint2();
-        rectTwo1GD = new GraphicDragController(play, play.rectTwo1, true ,rects);
+        rectTwo1GD = new GraphicDragController(play, play.rectTwo1, true, rects);
         rects.add(play.rectTwo1);
-        rectTwo2GD = new GraphicDragController(play, play.rectTwo2, true,rects);
+        rectTwo2GD = new GraphicDragController(play, play.rectTwo2, true, rects);
         rects.add(play.rectTwo2);
-        rectTwo3GD = new GraphicDragController(play, play.rectTwo3, true,rects);
+        rectTwo3GD = new GraphicDragController(play, play.rectTwo3, true, rects);
         rects.add(play.rectTwo3);
-        rectOne1GD = new GraphicDragController(play, play.rectOne1, true,rects);
+        rectOne1GD = new GraphicDragController(play, play.rectOne1, true, rects);
         rects.add(play.rectOne1);
-        rectOne2GD = new GraphicDragController(play, play.rectOne2, true,rects);
+        rectOne2GD = new GraphicDragController(play, play.rectOne2, true, rects);
         rects.add(play.rectOne2);
-        rectOne3GD = new GraphicDragController(play, play.rectOne3, true,rects);
+        rectOne3GD = new GraphicDragController(play, play.rectOne3, true, rects);
         rects.add(play.rectOne3);
-        rectOne4GD = new GraphicDragController(play, play.rectOne4, true,rects);
+        rectOne4GD = new GraphicDragController(play, play.rectOne4, true, rects);
         rects.add(play.rectOne4);
-        rectthree1GD = new GraphicDragController(play, play.rectthree1, true,rects);
+        rectthree1GD = new GraphicDragController(play, play.rectthree1, true, rects);
         rects.add(play.rectthree1);
-        rectthree2GD = new GraphicDragController(play, play.rectthree2, true,rects);
+        rectthree2GD = new GraphicDragController(play, play.rectthree2, true, rects);
         rects.add(play.rectthree2);
-        rectFourGD = new GraphicDragController(play, play.rectFour, true,rects);
+        rectFourGD = new GraphicDragController(play, play.rectFour, true, rects);
         rects.add(play.rectFour);
 
         mouseClickHandler = new MouseClickHandler();
@@ -91,15 +93,17 @@ public class PlayFrame extends JFrame {
 
         setVisible(true);
         addMouseListener(mouseClickHandler);
-        /*System.out.println(mouseClickHandler.getX());
+        System.out.println(mouseClickHandler.getX());
         System.out.println(mouseClickHandler.getY());
         x = mouseClickHandler.getX();
-        y = mouseClickHandler.getY();*/
+        y = mouseClickHandler.getY();
     }
 
 
     public MouseClickHandler getMouseClickHandler() {
+
         return mouseClickHandler;
+
     }
 
     public void gameStart() {
@@ -118,24 +122,40 @@ public class PlayFrame extends JFrame {
 
     public String myHitandLose(int x, int y) {
 
-       return play.hittedFromenemy(x, y);
+        return play.hittedFromenemy(x, y);
     }
 
 
-     // public void enemyHitandLose(int x, int y, boolean hit, int kindOfRec) {
+    // public void enemyHitandLose(int x, int y, boolean hit, int kindOfRec) {
     public void enemyHitandLose(String messege) {
         String[] array;
-      array = messege.split("&");
+        array = messege.split("&");
 //        enemyPlay.hittedFromYou(120, 120,1, 3);
-if (array[0].equals("1")){
-        enemyPlay.hittedFromYou(Integer.parseInt(array[array.length - 2]), Integer.parseInt(array[array.length - 1]), Integer.parseInt(array[1]), Integer.parseInt(array[0]) , Integer.parseInt(array[2]) );
-       // enemyPlay.hittedFromYou(120, 120,1, 3);
-         // enemyPlay. hittedFromYou(x,y,kindOfRec,hit);
-    }
-    else{
-    enemyPlay.hittedFromYou(Integer.parseInt(array[array.length - 2]), Integer.parseInt(array[array.length - 1]), 0, Integer.parseInt(array[0]) , 0 );
+        if (array[0].equals("1")) {
+            enemyPlay.hittedFromYou(Integer.parseInt(array[array.length - 2]), Integer.parseInt(array[array.length - 1]), Integer.parseInt(array[1]), Integer.parseInt(array[0]), Integer.parseInt(array[2]));
+            // enemyPlay.hittedFromYou(120, 120,1, 3);
+            // enemyPlay. hittedFromYou(x,y,kindOfRec,hit);
+        } else {
+            enemyPlay.hittedFromYou(Integer.parseInt(array[array.length - 2]), Integer.parseInt(array[array.length - 1]), 0, Integer.parseInt(array[0]), 0);
 
-}}
+        }
+    }
+
+    public boolean isLeaved() {
+        return leaved;
+    }
+
+    public void setLeaved(boolean leaved) {
+        this.leaved = leaved;
+    }
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
+    }
 
     private class Handler implements ActionListener {
 
@@ -149,22 +169,36 @@ if (array[0].equals("1")){
             }
             if (event.getSource() == start) {
                 gameStart();
-
+                started = true;
 
             }
             if (event.getSource() == leave) {
-                // myHitandLose(10,10);
-                //myHitandLose(130,10);
-                //myHitandLose(130,10);
-                myHitandLose(90, 10);
-                myHitandLose(130, 130);
-                myHitandLose(130, 170);
-                myHitandLose(135, 210);
-                myHitandLose(90, 45);
+                leaved = true;
 
             }
         }
     }
+
+    //PlayFrame k = new PlayFrame();
+    //k.gameStart();
+    // System.out.println("blue");
+
+    //  k.myHitandLose(0,0);
+    //  k.myHitandLose(1,1 );
+    //   System.out.println("black");
+    //  k.myHitandLose(15,15);
+    //   k.myHitandLose(15,45);
+    //    k.myHitandLose(15, 45);
+    //   k.myHitandLose(330, 60);
+    //   k.myHitandLose(15, 45);
+//        k.myHitandLose(120, 120);
+
+    //k.enemyHitandLose("1&3&1&160&360");
+    //  k.enemyHitandLose("1&2&1&0&0");
+    // k.enemyHitandLose("1&7&23&120&120");
+    //  k.enemyHitandLose("1&7&31&120&120");
+    // k.enemyHitandLose(120, 120,true, 3);
+
 
 }
 

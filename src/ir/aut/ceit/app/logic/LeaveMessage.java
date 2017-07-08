@@ -2,16 +2,16 @@ package ir.aut.ceit.app.logic;
 
 import java.nio.ByteBuffer;
 
-public class CancelMessage extends BooleanTypeMessage {
+public class LeaveMessage extends BooleanTypeMessage{
 
-    private boolean mCancel;
+    private boolean mLeave;
 
-    public CancelMessage(boolean cancel) {
-        super(cancel);
-        mCancel = super.ismValue();
+    public LeaveMessage(boolean leave){
+        super(leave);
+        mLeave = super.ismValue();
     }
 
-    public CancelMessage(byte[] serialized) {
+    public LeaveMessage(byte[] serialized) {
         super(serialized);
     }
 
@@ -21,9 +21,9 @@ public class CancelMessage extends BooleanTypeMessage {
         ByteBuffer byteBuffer = ByteBuffer.allocate(messageLength);
         byteBuffer.putInt(messageLength);
         byteBuffer.put(MessageTypes.PROTOCOL_VERSION);
-        byteBuffer.put(MessageTypes.CANCEL_MESSAGE);
+        byteBuffer.put(MessageTypes.LEAVE_MESSAGE);
         byteBuffer.putInt(1);
-        if (mCancel) {
+        if (mLeave) {
             byteBuffer.put((byte) 1);
 
         } else {
@@ -35,10 +35,12 @@ public class CancelMessage extends BooleanTypeMessage {
 
     @Override
     public byte getMessageType() {
-        return MessageTypes.CANCEL_MESSAGE;
+        return MessageTypes.LEAVE_MESSAGE;
     }
 
-    public boolean ismCancel() {
+    public boolean ismLeave() {
         return super.ismValue();
     }
 }
+
+

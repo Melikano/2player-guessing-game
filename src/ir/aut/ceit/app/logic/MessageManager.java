@@ -14,7 +14,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     private static int count;
     private boolean isHost;
     private boolean isGuest;
-    private boolean started;
+    private boolean connectionStarted;
     private boolean gotName;
     private boolean hostAccept;
     private boolean hostReject;
@@ -28,7 +28,8 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     private boolean gotTextMessage;
     private String hitCoordination;
     private boolean gotIsHitCoordinationMessage;
-
+    private boolean left;
+    private boolean gameStart;
 
 
     /**
@@ -51,7 +52,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
             isGuest = true;
             mNetworkHandlerList.add(networkHandler);
             networkHandler.start();
-            started = true;
+            connectionStarted = true;
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -135,6 +136,38 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
         mNetworkHandlerList.get(0).sendMessage(cancelMessage);
     }
 
+    public void sendLeaveMessage(String to, boolean isLeft) {
+        LeaveMessage leaveMessage = new LeaveMessage(isLeft);
+        leaveMessage.serialize();
+        if (isHost) {
+            for (NetworkHandler networkHandler : mNetworkHandlerList) {
+                if (networkHandler.getmTcpChannel().getIp().equals(to)) {
+                    networkHandler.sendMessage(leaveMessage);
+                    break;
+                }
+            }
+        } else if (isGuest) {
+            mNetworkHandlerList.get(0).sendMessage(leaveMessage);
+        }
+
+    }
+
+    public void sendStartMessage(String to, boolean isStart) {
+        StartMessage startMessage = new StartMessage(isStart);
+        startMessage.serialize();
+        if (isHost) {
+            for (NetworkHandler networkHandler : mNetworkHandlerList) {
+                if (networkHandler.getmTcpChannel().getIp().equals(to)) {
+                    networkHandler.sendMessage(startMessage);
+                    break;
+                }
+            }
+        } else if (isGuest) {
+            mNetworkHandlerList.get(0).sendMessage(startMessage);
+        }
+
+    }
+
     public void sendIsHitCoordinationMessage(String to, String hitCoordination){
         IsHitCoordinationMessage isHitCoordinationMessage = new IsHitCoordinationMessage(hitCoordination);
         isHitCoordinationMessage.serialize();
@@ -191,6 +224,16 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     }
 
+    private void consumeLeaveMessage(LeaveMessage message){
+        message.deserialize();
+        left = message.ismLeave();
+    }
+
+    private void consumeStartMessage(StartMessage message){
+        message.deserialize();
+        gameStart = message.ismStart();
+    }
+
     private void consumeIsHitCoordinationMessage(IsHitCoordinationMessage message){
         message.deserialize();
         hitCoordination = message.getmHitCoordination();
@@ -221,7 +264,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
         count++;
         networkHandler.start();
         System.out.println("new connection received");
-        started = true;
+        connectionStarted = true;
     }
 
     @Override
@@ -248,6 +291,9 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
             case MessageTypes.ISHITCOORDINATION_MESSAGE :
                 consumeIsHitCoordinationMessage((IsHitCoordinationMessage) baseMessage);
                 break;
+            case MessageTypes.LEAVE_MESSAGE :
+                consumeLeaveMessage((LeaveMessage) baseMessage);
+                break;
         }
     }
 
@@ -265,8 +311,8 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
         }
     }
 
-    public boolean isStarted() {
-        return started;
+    public boolean isconnectionStarted() {
+        return connectionStarted;
     }
 
     public String getName() {
@@ -343,5 +389,21 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     public void setGotCoordination(boolean gotCoordination) {
         this.gotCoordination = gotCoordination;
+    }
+
+    public boolean isLeft() {
+        return left;
+    }
+
+    public void setLeft(boolean left) {
+        this.left = left;
+    }
+
+    public boolean isGameStart() {
+        return gameStart;
+    }
+
+    public void setGameStart(boolean gameStart) {
+        this.gameStart = gameStart;
     }
 }

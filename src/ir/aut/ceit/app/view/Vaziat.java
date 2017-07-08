@@ -26,7 +26,7 @@ public class Vaziat {
             }
         }
         //amoodi paieni rozade
-        if (y - 50 > 0) {
+        if (y - 30 > 0) {
             color.setP(createImage(jpanel).getRGB(x + 10, y - 30));
             if (color.findingGreen() == 176) {
                 return "22";
@@ -38,16 +38,14 @@ public class Vaziat {
                 return "23";
             }
         }
-        if (x - 50 > 0) {
+        if (x - 30 > 0) {
             color.setP(createImage(jpanel).getRGB(x - 30, y + 10));
             if (color.findingGreen() == 176) {
                 return "24";
             }
         }
-        return "1";
-    }
-
-    public String vaziatRect3(int x, int y) {
+        return "177";
+    } public String vaziatRect3(int x, int y) {
 
         ColorIdentifiing color =new ColorIdentifiing(createImage(jpanel).getRGB(x , y ));
 
@@ -59,7 +57,7 @@ public class Vaziat {
             }
         }
         //amoodi paieni rozade
-        if (y - 50 > 0) {
+        if (y - 30 > 0) {
             color.setP(createImage(jpanel).getRGB(x + 10, y - 30));
             if (color.findingGreen() == 176) {
                 return "22";
@@ -71,15 +69,14 @@ public class Vaziat {
                 return "23";
             }
         }
-        if (x - 50 > 0) {
+        if (x - 30 > 0) {
             color.setP(createImage(jpanel).getRGB(x - 30, y + 10));
             if (color.findingGreen() == 176) {
                 return "24";
             }
         }
-        return "1";
+        return "777";
     }
-
 
     public BufferedImage createImage(JPanel panel) {
 

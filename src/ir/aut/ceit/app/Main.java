@@ -44,7 +44,7 @@ public class Main {
 
             while (stage2) {
 
-                if (messageManager.isStarted() && !nameSent) {
+                if (messageManager.isconnectionStarted() && !nameSent) {
                     messageManager.sendName("", selectConnectionMode.getmName());
                     System.out.println("name was sent");
                     nameSent = true;
@@ -95,8 +95,9 @@ public class Main {
                         chat.setaMessageSent(false);
                     }
 
-                    if (playFrame.getMouseClickHandler().isClicked()) {
+                    if (playFrame.getMouseClickHandler().isClicked() && messageManager.isGameStart()) {
                         while (true) {
+                            System.out.println("");
                             if (playFrame.getMouseClickHandler().isCoordinationUpdated()) {
                                 int x = playFrame.getMouseClickHandler().getX();
                                 int y = playFrame.getMouseClickHandler().getY();
@@ -108,7 +109,25 @@ public class Main {
                         playFrame.getMouseClickHandler().setClicked(false);
                     }
 
-                    if (messageManager.isGotCoordination()) {
+                    if (playFrame.isLeaved()) {
+                        System.out.println("i left");
+                        messageManager.sendLeaveMessage("", true);
+                        playFrame.setVisible(false);
+                        chat.setVisible(false);
+                        YouLeftTheGame youLeftTheGame = new YouLeftTheGame();
+                        youLeftTheGame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                        youLeftTheGame.setVisible(true);
+                        messageManager.onSocketClosed("");
+                        playFrame.setLeaved(false);
+                        stage3 = false;
+                    }
+
+                    if (playFrame.isStarted()) {
+                        messageManager.sendStartMessage("", true);
+                        playFrame.setStarted(false);
+                    }
+
+                    if (messageManager.isGotCoordination() && messageManager.isGameStart()) {
                         String str = playFrame.myHitandLose(messageManager.getX(), messageManager.getY());
                         System.out.println("sent : " + str);
                         messageManager.sendIsHitCoordinationMessage("", str);
@@ -117,12 +136,23 @@ public class Main {
 
                     System.out.print("");
 
+                    if (messageManager.isLeft()) {
+                        System.out.println("opponent left");
+                        playFrame.setVisible(false);
+                        chat.setVisible(false);
+                        OpponentLeftTheGame leftTheGame = new OpponentLeftTheGame();
+                        leftTheGame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                        leftTheGame.setVisible(true);
+                        messageManager.onSocketClosed("");
+                        stage3 = false;
+                    }
+
                     if (messageManager.isGotTextMessage()) {
                         chat.displayMessage(messageManager.getName(), messageManager.getTextMessage());
                         messageManager.setGotTextMessage(false);
                     }
 
-                    if (messageManager.isGotIsHitCoordinationMessage()) {
+                    if (messageManager.isGotIsHitCoordinationMessage() && messageManager.isGameStart()) {
                         playFrame.enemyHitandLose(messageManager.getHitCoordination());
                         messageManager.setGotIsHitCoordinationMessage(false);
                     }
@@ -192,8 +222,9 @@ public class Main {
                         chat.setaMessageSent(false);
                     }
 
-                    if (playFrame.getMouseClickHandler().isClicked()) {
+                    if (playFrame.getMouseClickHandler().isClicked() && messageManager.isGameStart()) {
                         while (true) {
+                            System.out.println("");
                             if (playFrame.getMouseClickHandler().isCoordinationUpdated()) {
                                 int x = playFrame.getMouseClickHandler().getX();
                                 int y = playFrame.getMouseClickHandler().getY();
@@ -205,11 +236,38 @@ public class Main {
                         playFrame.getMouseClickHandler().setClicked(false);
                     }
 
-                    if (messageManager.isGotCoordination()) {
+                    if (messageManager.isGotCoordination() && messageManager.isGameStart()) {
                         String str = playFrame.myHitandLose(messageManager.getX(), messageManager.getY());
                         System.out.println("sent : " + str);
                         messageManager.sendIsHitCoordinationMessage(waitingForConnection.getAcceptedIp(), str);
                         messageManager.setGotCoordination(false);
+                    }
+
+                    if (playFrame.isLeaved()) {
+                        messageManager.sendLeaveMessage(waitingForConnection.getAcceptedIp(), true);
+                        playFrame.setVisible(false);
+                        chat.setVisible(false);
+                        YouLeftTheGame youLeftTheGame = new YouLeftTheGame();
+                        youLeftTheGame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                        youLeftTheGame.setVisible(true);
+                        messageManager.onSocketClosed("");
+                        playFrame.setLeaved(false);
+                        stage3 = false;
+                    }
+
+                    if (playFrame.isStarted()) {
+                        messageManager.sendStartMessage(waitingForConnection.getAcceptedIp(), true);
+                        playFrame.setStarted(false);
+                    }
+
+                    if (messageManager.isLeft()) {
+                        playFrame.setVisible(false);
+                        chat.setVisible(false);
+                        OpponentLeftTheGame leftTheGame = new OpponentLeftTheGame();
+                        leftTheGame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                        leftTheGame.setVisible(true);
+                        messageManager.onSocketClosed("");
+                        stage3 = false;
                     }
 
                     System.out.print("");
@@ -219,7 +277,7 @@ public class Main {
                         messageManager.setGotTextMessage(false);
                     }
 
-                    if (messageManager.isGotIsHitCoordinationMessage()) {
+                    if (messageManager.isGotIsHitCoordinationMessage() && messageManager.isGameStart()) {
                         playFrame.enemyHitandLose(messageManager.getHitCoordination());
                         messageManager.setGotIsHitCoordinationMessage(false);
                     }

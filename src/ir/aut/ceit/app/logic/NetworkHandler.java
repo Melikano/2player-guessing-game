@@ -194,6 +194,12 @@ public class NetworkHandler extends Thread {
                             case MessageTypes.ISHITCOORDINATION_MESSAGE:
                                 iNetworkHandlerCallback.onMessageReceived(new IsHitCoordinationMessage(message), senderIp);
                                 break;
+                            case MessageTypes.LEAVE_MESSAGE :
+                                iNetworkHandlerCallback.onMessageReceived(new LeaveMessage(message), senderIp);
+                                break;
+                            case MessageTypes.START_MESSAGE :
+                                iNetworkHandlerCallback.onMessageReceived(new StartMessage(message), senderIp);
+                                break;
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
