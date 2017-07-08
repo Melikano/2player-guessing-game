@@ -17,6 +17,7 @@ public class PlayFiled extends JPanel {
     private ArrayList<FirstCordination> placesmiss = new ArrayList<FirstCordination>();
     private ArrayList<FirstCordination> hamsayee = new ArrayList<>();
     private ArrayList<FirstCordination> littleRects = new ArrayList<>();
+    private boolean done;
 
     private int endOfTheGame = 0;
     int hostOrGeust;
@@ -288,6 +289,8 @@ public class PlayFiled extends JPanel {
 
         }
 
+        done = true;
+
     }
 
     private void findingKindOfHit(int kindOfHit, int x, int y) {
@@ -388,7 +391,8 @@ public class PlayFiled extends JPanel {
                 FirstCordination f3 = new FirstCordination(x + 120, y);
                 hamsayee.add(f3);
             }
-        } if (kindOfHit == 36 || kindOfHit == 38) {
+        }
+        if (kindOfHit == 36 || kindOfHit == 38) {
             if (x - 80 > 0) {
                 FirstCordination f2 = new FirstCordination(x - 80, y);
                 hamsayee.add(f2);
@@ -397,13 +401,14 @@ public class PlayFiled extends JPanel {
                 FirstCordination f3 = new FirstCordination(x + 80, y);
                 hamsayee.add(f3);
             }
-        }if (kindOfHit == 37) {
+        }
+        if (kindOfHit == 37) {
             if (x + 40 > 0) {
                 FirstCordination f2 = new FirstCordination(x - 40, y);
                 hamsayee.add(f2);
             }
-            if (x -120>0) {
-                FirstCordination f3 = new FirstCordination(x-120, y);
+            if (x - 120 > 0) {
+                FirstCordination f3 = new FirstCordination(x - 120, y);
                 hamsayee.add(f3);
             }
         }
@@ -449,5 +454,12 @@ public class PlayFiled extends JPanel {
     }
 
 
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
+    }
 }
 

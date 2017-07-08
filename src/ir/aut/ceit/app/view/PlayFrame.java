@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class PlayFrame extends JFrame {
     private ArrayList<Rectangle> rects;
@@ -116,7 +117,7 @@ public class PlayFrame extends JFrame {
         rotate.setEnabled(false);
     }
 
-    public String myHitandLose(int x, int y) {
+    public String myHitandLose(int x, int y) throws InterruptedException {
 
         String result = play.hittedFromenemy(x, y);
         myChangingFields(result);
@@ -125,22 +126,28 @@ public class PlayFrame extends JFrame {
 
 
     // public void enemyHitandLose(int x, int y, boolean hit, int kindOfRec) {
-    public void enemyHitandLose(String messege) {
+    public void enemyHitandLose(String messege) throws InterruptedException {
         String[] array;
         array = messege.split("&");
 //        enemyPlay.hittedFromYou(120, 120,1, 3);
         if (array[0].equals("1")) {
             enemyPlay.hittedFromYou(Integer.parseInt(array[array.length - 2]), Integer.parseInt(array[array.length - 1]), Integer.parseInt(array[1]), Integer.parseInt(array[0]), Integer.parseInt(array[2]));
-            changingFields(messege);
+            if(enemyPlay.isDone()) {
+                changingFields(messege);
+            }
             // enemyPlay.hittedFromYou(120, 120,1, 3);
             // enemyPlay. hittedFromYou(x,y,kindOfRec,hit);
         } else {
             enemyPlay.hittedFromYou(Integer.parseInt(array[array.length - 2]), Integer.parseInt(array[array.length - 1]), 0, Integer.parseInt(array[0]), 0);
-            changingFields(messege);
+            if(enemyPlay.isDone()) {
+                changingFields(messege);
+            }
         }
+        enemyPlay.setDone(false);
     }
 
-    public void changingFields(String messege) {
+    public void changingFields(String messege) throws InterruptedException {
+        TimeUnit.SECONDS.sleep(3);
         if (messege.charAt(0) == '0') {
             enemyPlay.setVisible(false);
             play.setVisible(true);
@@ -153,7 +160,8 @@ public class PlayFrame extends JFrame {
         }
     }
 
-    public void myChangingFields(String messege) {
+    public void myChangingFields(String messege) throws InterruptedException {
+        TimeUnit.SECONDS.sleep(3);
         if (messege.charAt(0) == '0') {
             enemyPlay.setVisible(true);
             play.setVisible(false);
@@ -166,7 +174,7 @@ public class PlayFrame extends JFrame {
         }
     }
 
-    public void firstLevelShow(){
+    public void firstLevelShow() {
         enemyPlay.setVisible(false);
         play.setVisible(true);
     }

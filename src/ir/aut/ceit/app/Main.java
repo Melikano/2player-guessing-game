@@ -112,10 +112,10 @@ public class Main {
                         while (true) {
                             System.out.println("t");
 
-                            if (!firstClick) {
+                            /*if (!firstClick) {
                                 firstClick = true;
                                 break;
-                            }
+                            }*/
 
                             if (playFrame.getMouseClickHandler().isCoordinationUpdated()) {
                                 int x = playFrame.getMouseClickHandler().getX();
