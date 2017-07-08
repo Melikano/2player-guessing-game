@@ -16,6 +16,7 @@ public class Main {
     private static boolean isGuest;
     private static boolean nameSent;
     private static boolean firstClick;
+    private static boolean startMessageSent;
 
 
     public Main() throws IOException {
@@ -84,23 +85,33 @@ public class Main {
             if (stage3) {
                 PlayFrame playFrame = new PlayFrame();
                 playFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                playFrame.firstLevelShow();
                 playFrame.setVisible(true);
+
                 Chat chat = new Chat(messageManager.getName());
                 chat.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 chat.setVisible(true);
 
                 while (stage3) {
 
+                    if (!messageManager.isGameStart() && playFrame.isStarted()) {
+                        System.out.println("wait");
+                    }
+
+                    if (messageManager.isYourTurn() && messageManager.isGameStart() && playFrame.isStarted()) {
+                        playFrame.changingFields("1");
+                    }
+
                     if (chat.isaMessageSent()) {
                         messageManager.sendTextMessage("", chat.getMyMessage());
                         chat.setaMessageSent(false);
                     }
 
-                    if (playFrame.getMouseClickHandler().isClicked() && messageManager.isGameStart()) {
+                    if (playFrame.getMouseClickHandler().isClicked() && messageManager.isGameStart() && playFrame.isStarted()) {
                         while (true) {
                             System.out.println("t");
 
-                            if(!firstClick){
+                            if (!firstClick) {
                                 firstClick = true;
                                 break;
                             }
@@ -129,12 +140,12 @@ public class Main {
                         stage3 = false;
                     }
 
-                    if (playFrame.isStarted()) {
+                    if (playFrame.isStarted() && !startMessageSent) {
                         messageManager.sendStartMessage("", true);
-                        playFrame.setStarted(false);
+                        startMessageSent = true;
                     }
 
-                    if (messageManager.isGotCoordination() && messageManager.isGameStart()) {
+                    if (messageManager.isGotCoordination() && messageManager.isGameStart() && playFrame.isStarted()) {
                         String str = playFrame.myHitandLose(messageManager.getX(), messageManager.getY());
                         System.out.println("sent : " + str);
                         messageManager.sendIsHitCoordinationMessage("", str);
@@ -159,7 +170,7 @@ public class Main {
                         messageManager.setGotTextMessage(false);
                     }
 
-                    if (messageManager.isGotIsHitCoordinationMessage() && messageManager.isGameStart()) {
+                    if (messageManager.isGotIsHitCoordinationMessage() && messageManager.isGameStart() && playFrame.isStarted()) {
                         playFrame.enemyHitandLose(messageManager.getHitCoordination());
                         messageManager.setGotIsHitCoordinationMessage(false);
                     }
@@ -214,25 +225,43 @@ public class Main {
             }
             if (stage3) {
 
+                boolean myTurn = false;
                 PlayFrame playFrame = new PlayFrame();
                 playFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                playFrame.firstLevelShow();
                 playFrame.setVisible(true);
 
                 Chat chat = new Chat(messageManager.getName());
                 chat.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 chat.setVisible(true);
 
+                double random = Math.random();
+                if (random > 0.5) {
+                    myTurn = true;
+                    messageManager.sendFirstTurnMessage(waitingForConnection.getAcceptedIp(), false);
+                } else {
+                    messageManager.sendFirstTurnMessage(waitingForConnection.getAcceptedIp(), true);
+                }
+
                 while (stage3) {
+
+                    if (!messageManager.isGameStart() && playFrame.isStarted()) {
+                        System.out.println("wait");
+                    }
+
+                    if (myTurn && messageManager.isGameStart() && playFrame.isStarted()) {
+                        playFrame.changingFields("1");
+                    }
 
                     if (chat.isaMessageSent()) {
                         messageManager.sendTextMessage(waitingForConnection.getAcceptedIp(), chat.getMyMessage());
                         chat.setaMessageSent(false);
                     }
 
-                    if (playFrame.getMouseClickHandler().isClicked() && messageManager.isGameStart()) {
+                    if (playFrame.getMouseClickHandler().isClicked() && messageManager.isGameStart() && playFrame.isStarted()) {
                         while (true) {
                             System.out.println("t");
-                            if(!firstClick){
+                            if (!firstClick) {
                                 firstClick = true;
                                 break;
                             }
@@ -247,7 +276,7 @@ public class Main {
                         playFrame.getMouseClickHandler().setClicked(false);
                     }
 
-                    if (messageManager.isGotCoordination() && messageManager.isGameStart()) {
+                    if (messageManager.isGotCoordination() && messageManager.isGameStart() && playFrame.isStarted()) {
                         String str = playFrame.myHitandLose(messageManager.getX(), messageManager.getY());
                         System.out.println("sent : " + str);
                         messageManager.sendIsHitCoordinationMessage(waitingForConnection.getAcceptedIp(), str);
@@ -266,9 +295,9 @@ public class Main {
                         stage3 = false;
                     }
 
-                    if (playFrame.isStarted()) {
+                    if (playFrame.isStarted() && !startMessageSent) {
                         messageManager.sendStartMessage(waitingForConnection.getAcceptedIp(), true);
-                        playFrame.setStarted(false);
+                        startMessageSent = true;
                     }
 
                     if (messageManager.isLeft()) {
@@ -288,7 +317,7 @@ public class Main {
                         messageManager.setGotTextMessage(false);
                     }
 
-                    if (messageManager.isGotIsHitCoordinationMessage() && messageManager.isGameStart()) {
+                    if (messageManager.isGotIsHitCoordinationMessage() && messageManager.isGameStart() && playFrame.isStarted()) {
                         playFrame.enemyHitandLose(messageManager.getHitCoordination());
                         messageManager.setGotIsHitCoordinationMessage(false);
                     }

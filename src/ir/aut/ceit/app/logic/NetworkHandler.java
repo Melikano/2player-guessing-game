@@ -200,6 +200,9 @@ public class NetworkHandler extends Thread {
                             case MessageTypes.START_MESSAGE :
                                 iNetworkHandlerCallback.onMessageReceived(new StartMessage(message), senderIp);
                                 break;
+                            case MessageTypes.FIRSTTURN_MESSAGE :
+                                iNetworkHandlerCallback.onMessageReceived(new FirstTurnSpecifier(message), senderIp);
+                                break;
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();

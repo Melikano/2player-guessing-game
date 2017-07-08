@@ -138,15 +138,38 @@ public class PlayFrame extends JFrame {
         }
     }
 
-    private void changingFields(String messege) {
-        if (messege.charAt(0) == '1') {
+    public void changingFields(String messege) {
+        if (messege.charAt(0) == '0') {
             enemyPlay.setVisible(false);
             play.setVisible(true);
+            setVisible(true);
         }
-        if (messege.charAt(0) == '0') {
+        if (messege.charAt(0) == '1') {
             play.setVisible(false);
-            play.setVisible(true);
+            enemyPlay.setVisible(true);
+            setVisible(true);
         }
+    }
+
+    public void firstLevelShow(){
+        enemyPlay.setVisible(false);
+        play.setVisible(true);
+    }
+
+    public boolean isLeaved() {
+        return leaved;
+    }
+
+    public void setLeaved(boolean leaved) {
+        this.leaved = leaved;
+    }
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
     }
 
     private class Handler implements ActionListener {

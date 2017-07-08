@@ -30,6 +30,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     private boolean gotIsHitCoordinationMessage;
     private boolean left;
     private boolean gameStart;
+    private boolean isYourTurn;
 
 
     /**
@@ -184,6 +185,19 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     }
 
+    public void sendFirstTurnMessage(String to, boolean isYourTurn) {
+        FirstTurnSpecifier firstTurnSpecifier = new FirstTurnSpecifier(isYourTurn);
+        firstTurnSpecifier.serialize();
+        if (isHost) {
+            for (NetworkHandler networkHandler : mNetworkHandlerList) {
+                if (networkHandler.getmTcpChannel().getIp().equals(to)) {
+                    networkHandler.sendMessage(firstTurnSpecifier);
+                    break;
+                }
+            }
+        }
+    }
+
     private void consumeCoordinationMessage(CoordinationPlayMessage message) {
         message.deserialize();
         x = Integer.parseInt(message.getCoordinationX());
@@ -232,6 +246,11 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
     private void consumeStartMessage(StartMessage message){
         message.deserialize();
         gameStart = message.ismStart();
+    }
+
+    private void consumeFirstTurnMessage(FirstTurnSpecifier message){
+        message.deserialize();
+        isYourTurn = message.ismIsYourTurn();
     }
 
     private void consumeIsHitCoordinationMessage(IsHitCoordinationMessage message){
@@ -296,6 +315,9 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
                 break;
             case MessageTypes.START_MESSAGE :
                 consumeStartMessage((StartMessage) baseMessage);
+                break;
+            case MessageTypes.FIRSTTURN_MESSAGE :
+                consumeFirstTurnMessage((FirstTurnSpecifier) baseMessage);
                 break;
         }
     }
@@ -408,5 +430,13 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
 
     public void setGameStart(boolean gameStart) {
         this.gameStart = gameStart;
+    }
+
+    public boolean isYourTurn() {
+        return isYourTurn;
+    }
+
+    public void setYourTurn(boolean yourTurn) {
+        isYourTurn = yourTurn;
     }
 }
