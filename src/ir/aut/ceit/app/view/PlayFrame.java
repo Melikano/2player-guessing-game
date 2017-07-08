@@ -127,11 +127,15 @@ public class PlayFrame extends JFrame {
         String[] array;
       array = messege.split("&");
 //        enemyPlay.hittedFromYou(120, 120,1, 3);
-
+if (array[0].equals("1")){
         enemyPlay.hittedFromYou(Integer.parseInt(array[array.length - 2]), Integer.parseInt(array[array.length - 1]), Integer.parseInt(array[1]), Integer.parseInt(array[0]) , Integer.parseInt(array[2]) );
        // enemyPlay.hittedFromYou(120, 120,1, 3);
          // enemyPlay. hittedFromYou(x,y,kindOfRec,hit);
     }
+    else{
+    enemyPlay.hittedFromYou(Integer.parseInt(array[array.length - 2]), Integer.parseInt(array[array.length - 1]), 0, Integer.parseInt(array[0]) , 0 );
+
+}}
 
     private class Handler implements ActionListener {
 

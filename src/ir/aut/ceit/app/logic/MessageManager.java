@@ -194,6 +194,7 @@ public class MessageManager implements ServerSocketHandler.IServerSocketHandlerC
         message.deserialize();
         hitCoordination = message.getmHitCoordination();
         gotIsHitCoordinationMessage = true;
+        System.out.println("str" + hitCoordination);
     }
 
     public boolean isMessageSent(String to) {

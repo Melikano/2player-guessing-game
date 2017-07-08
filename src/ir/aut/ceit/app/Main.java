@@ -106,6 +106,7 @@ public class Main {
 
                     if(messageManager.isGotCoordination()){
                         messageManager.sendIsHitCoordinationMessage("", playFrame.myHitandLose(messageManager.getX(), messageManager.getY()));
+                        messageManager.setGotCoordination(false);
                     }
 
                     System.out.print("");
@@ -113,6 +114,11 @@ public class Main {
                     if(messageManager.isGotTextMessage()){
                         chat.displayMessage(messageManager.getName(), messageManager.getTextMessage());
                         messageManager.setGotTextMessage(false);
+                    }
+
+                    if(messageManager.isGotIsHitCoordinationMessage()){
+                        playFrame.enemyHitandLose(messageManager.getHitCoordination());
+                        messageManager.setGotIsHitCoordinationMessage(false);
                     }
                 }
 
@@ -191,6 +197,7 @@ public class Main {
 
                     if(messageManager.isGotCoordination()){
                         messageManager.sendIsHitCoordinationMessage(waitingForConnection.getAcceptedIp(), playFrame.myHitandLose(messageManager.getX(), messageManager.getY()));
+                        messageManager.setGotCoordination(false);
                     }
 
                     System.out.print("");
@@ -198,6 +205,11 @@ public class Main {
                     if(messageManager.isGotTextMessage()){
                         chat.displayMessage(waitingForConnection.getAcceptedName(), messageManager.getTextMessage());
                         messageManager.setGotTextMessage(false);
+                    }
+
+                    if(messageManager.isGotIsHitCoordinationMessage()){
+                        playFrame.enemyHitandLose(messageManager.getHitCoordination());
+                        messageManager.setGotIsHitCoordinationMessage(false);
                     }
 
                 }

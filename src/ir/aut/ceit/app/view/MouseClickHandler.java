@@ -12,10 +12,10 @@ public class MouseClickHandler extends MouseAdapter {
     private int y;
 
     public void mouseClicked(MouseEvent event) {
-        if (event.getX() < 400 && event.getY() < 400) {
+        if (event.getX() < 400 && event.getY() < 440) {
             isClicked = true;
             x = event.getX();
-            y = event.getY();
+            y = event.getY() - 40;
         }
     }
 
