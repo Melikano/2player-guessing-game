@@ -105,7 +105,9 @@ public class Main {
                     }
 
                     if(messageManager.isGotCoordination()){
-                        messageManager.sendIsHitCoordinationMessage("", playFrame.myHitandLose(messageManager.getX(), messageManager.getY()));
+                        String str = playFrame.myHitandLose(messageManager.getX(), messageManager.getY());
+                        System.out.println("sent : " + str);
+                        messageManager.sendIsHitCoordinationMessage("", str);
                         messageManager.setGotCoordination(false);
                     }
 
@@ -196,7 +198,9 @@ public class Main {
                     }
 
                     if(messageManager.isGotCoordination()){
-                        messageManager.sendIsHitCoordinationMessage(waitingForConnection.getAcceptedIp(), playFrame.myHitandLose(messageManager.getX(), messageManager.getY()));
+                        String str = playFrame.myHitandLose(messageManager.getX(), messageManager.getY());
+                        System.out.println("sent : " + str);
+                        messageManager.sendIsHitCoordinationMessage(waitingForConnection.getAcceptedIp(), str);
                         messageManager.setGotCoordination(false);
                     }
 

@@ -15,7 +15,6 @@ public class Vaziat {
     }
 
     public String vaziatRect(int x, int y) {
-        System.out.println(x+"G"+y);
 
         ColorIdentifiing color =new ColorIdentifiing(createImage(jpanel).getRGB(x , y ));
 
@@ -48,6 +47,40 @@ public class Vaziat {
         return "1";
     }
 
+    public String vaziatRect3(int x, int y) {
+
+        ColorIdentifiing color =new ColorIdentifiing(createImage(jpanel).getRGB(x , y ));
+
+        if (y + 50 < 400) {
+            color = new ColorIdentifiing(createImage(jpanel).getRGB(x + 10, y + 50));
+            //amoodi balaii rozade
+            if (color.findingGreen() == 176) {
+                return "21";
+            }
+        }
+        //amoodi paieni rozade
+        if (y - 50 > 0) {
+            color.setP(createImage(jpanel).getRGB(x + 10, y - 30));
+            if (color.findingGreen() == 176) {
+                return "22";
+            }
+        }
+        if (x + 50 < 400) {
+            color.setP(createImage(jpanel).getRGB(x + 50, y + 10));
+            if (color.findingGreen() == 176) {
+                return "23";
+            }
+        }
+        if (x - 50 > 0) {
+            color.setP(createImage(jpanel).getRGB(x - 30, y + 10));
+            if (color.findingGreen() == 176) {
+                return "24";
+            }
+        }
+        return "1";
+    }
+
+
     public BufferedImage createImage(JPanel panel) {
 
         int w = panel.getWidth();
@@ -60,7 +93,7 @@ public class Vaziat {
     }
 
     public String vaziatRect2(int x, int y) {
-        String vaziat = vaziatRect(x, y);
+        String vaziat = vaziatRect3(x, y);
         ColorIdentifiing color = new ColorIdentifiing(createImage(jpanel).getRGB(x , y));
 
         if (vaziat.equals("21")) {
@@ -138,6 +171,6 @@ public class Vaziat {
 
             }
         }
-        return null;
+        return "0";
     }
 }
