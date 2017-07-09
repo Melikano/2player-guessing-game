@@ -78,7 +78,7 @@ public class Main {
                     messageManager.sendCancelMessage(pleaseWait.isConnectionCanceled());
                     pleaseWait.setVisible(false);
                     ConnectionClosed connectionClosed = new ConnectionClosed();
-                    connectionClosed.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                    connectionClosed.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                     connectionClosed.setVisible(true);
                     messageManager.onSocketClosed("");
                     stage2 = false;
@@ -291,7 +291,7 @@ public class Main {
 
                     if(playFrame.isShowChatHistory()){
                         ChatHistoryMenu chatHistoryMenu = new ChatHistoryMenu();
-                        chatHistoryMenu.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                        chatHistoryMenu.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
                         chatHistoryMenu.setVisible(true);
                         playFrame.setShowChatHistory(false);
                     }

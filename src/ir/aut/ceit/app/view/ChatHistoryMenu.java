@@ -88,8 +88,8 @@ public class ChatHistoryMenu extends JFrame {
                         String time = (String) j.get("time");
                         chatHistory.displayMessageHistory(sender, imesg, time);
                     }
-                    chatHistory.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                     chatHistory.setLocation(1200, 50);
+                    chatHistory.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                     chatHistory.setVisible(true);
                     break;
                 }
