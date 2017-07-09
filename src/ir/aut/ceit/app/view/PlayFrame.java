@@ -207,6 +207,14 @@ public class PlayFrame extends JFrame {
         this.showChatHistory = showChatHistory;
     }
 
+    public PlayFiled getPlay() {
+        return play;
+    }
+
+    public PlayFiled getEnemyPlay() {
+        return enemyPlay;
+    }
+
     private class Handler implements ActionListener {
 
         @Override

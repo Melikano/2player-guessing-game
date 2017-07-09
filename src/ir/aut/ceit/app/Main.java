@@ -195,6 +195,20 @@ public class Main {
                         playFrame.enemyHitandLose(messageManager.getHitCoordination());
                         messageManager.setGotIsHitCoordinationMessage(false);
                     }
+
+                    if(playFrame.getPlay().getyouWon() == 20 && playFrame.getPlay().getOpponentWon() < 20){
+                        YouWin youWin = new YouWin();
+                        youWin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        youWin.setVisible(true);
+                        stage3 = false;
+                    }
+
+                    if (playFrame.getPlay().getyouWon() < 20 && playFrame.getPlay().getOpponentWon() == 20){
+                        YouLost youLost = new YouLost();
+                        youLost.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        youLost.setVisible(true);
+                        stage3 = false;
+                    }
                 }
 
 
@@ -363,6 +377,20 @@ public class Main {
                     if (messageManager.isGotIsHitCoordinationMessage() && messageManager.isGameStart() && playFrame.isStarted()) {
                         playFrame.enemyHitandLose(messageManager.getHitCoordination());
                         messageManager.setGotIsHitCoordinationMessage(false);
+                    }
+
+                    if(playFrame.getPlay().getyouWon() == 20 && playFrame.getPlay().getOpponentWon() < 20){
+                        YouWin youWin = new YouWin();
+                        youWin.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                        youWin.setVisible(true);
+                        stage3 = false;
+                    }
+
+                    if (playFrame.getPlay().getyouWon() < 20 && playFrame.getPlay().getOpponentWon() == 20){
+                        YouLost youLost = new YouLost();
+                        youLost.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                        youLost.setVisible(true);
+                        stage3 = false;
                     }
 
                 }
