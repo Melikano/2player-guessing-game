@@ -18,6 +18,7 @@ public class PlayFiled extends JPanel {
     private ArrayList<FirstCordination> hamsayee = new ArrayList<>();
     private ArrayList<FirstCordination> littleRects = new ArrayList<>();
     private boolean done;
+    private int allMarked=0;
 
     private int endOfTheGame = 0;
     int hostOrGeust;
@@ -187,36 +188,44 @@ public class PlayFiled extends JPanel {
         if (rectOne2.contains(x + 10, y + 10) || noe == 2) {
             contain(15, 470);
             //yedoonas
+            allMarked++;
             return "2" + "&" + "1";
         }
         if (rectOne3.contains(x + 10, y + 10) || noe == 3) {
             contain(30, 470);
             //yedoonas
+            allMarked++;
             return "3" + "&" + "1";
 
         }
-        if (rectOne3.contains(x + 10, y + 10) || noe == 4) {
+        if (rectOne4.contains(x + 10, y + 10) || noe == 4) {
             contain(45, 470);
             //yedoonas
+            allMarked++;
             return "4" + "&" + "1";
         }
         if (rectTwo1.contains(x + 10, y + 10) || noe == 5) {
             containForTwoRecs(rectTwo1, x, y, 1);
+
             return "5" + "&" + vaziat.vaziatRect(x, y);
+
 
         }
         if (rectTwo2.contains(x + 10, y + 10) || noe == 6) {
-            containForTwoRecs(rectTwo1, x, y, 2);
+            containForTwoRecs(rectTwo2, x, y, 2);
+
             return "6" + "&" + vaziat.vaziatRect(x, y);
 
         }
         if (rectTwo3.contains(x + 10, y + 10) || noe == 7) {
-            containForTwoRecs(rectTwo1, x, y, 3);
+            containForTwoRecs(rectTwo3, x, y, 3);
+
             return "7" + "&" + vaziat.vaziatRect(x, y);
 
         }
         if (rectthree1.contains(x + 10, y + 10) || noe == 8) {
             containForThreeRecs(rectthree1, x, y, 1);
+
             return "8" + "&" + vaziat.vaziatRect2(x, y);
 
         }
@@ -226,43 +235,54 @@ public class PlayFiled extends JPanel {
         }
         if (rectFour.contains(x + 10, y + 10) || noe == 10) {
             containForFourRecs(rectFour, x, y, 1);
-            return "10";
+            return "10"+ "&"+"44";
         }
         return null;
     }
 
     private void containForThreeRecs(Rectangle rect, int a, int b, int num) {
         if ((int) rect.getX() == a && (int) rect.getY() == b) {
+            allMarked++;
+
             contain((num - 1) * 40, 430);
         } else if (((int) rect.getX() + 40 == a && (int) rect.getY() == b) || ((int) rect.getX() == a && (int) rect.getY() + 40 == b)) {
             contain(((num - 1) * 40 + 12), 430);
+            allMarked++;
 
         } else {
             contain(((num - 1) * 40 + 24), 430);
+            allMarked++;
+
         }
     }
 
     private void containForFourRecs(Rectangle rect, int a, int b, int num) {
         if ((int) rect.getX() == a && (int) rect.getY() == b) {
             contain((num - 1) * 40, 410);
+            allMarked++;
         } else if (((int) rect.getX() + 40 == a && (int) rect.getY() == b) || ((int) rect.getX() == a && (int) rect.getY() + 40 == b)) {
             contain(((num - 1) * 40 + 12), 410);
-
+            allMarked++;
         } else if (((int) rect.getX() + 80 == a && (int) rect.getY() == b) || ((int) rect.getX() == a && (int) rect.getY() + 80 == b)) {
             {
+                allMarked++;
                 contain(((num - 1) * 40 + 24), 410);
             }
         } else {
+            allMarked++;
             contain(((num - 1) * 40 + 36), 410);
         }
     }
 
     private void containForTwoRecs(Rectangle rect, int a, int b, int num) {
         if ((int) rect.getX() == a && (int) rect.getY() == b) {
-            contain((num - 1) * 30, 450);
+            contain((num - 1) * 40, 450);
+            allMarked++;
 
         } else {
-            contain(((num - 1) * 30 + 12), 450);
+            contain(((num - 1) * 40 + 12), 450);
+            allMarked++;
+
         }
     }
 
@@ -276,6 +296,7 @@ public class PlayFiled extends JPanel {
             FirstCordination f = new FirstCordination(cordinationx, cordinationy);
             placeshit.add(f);
             hamsaye(cordinationx, cordinationy);
+
             kindOfRect(cordinationx, cordinationy, noe);
             findingKindOfHit(kindOfHit, cordinationx, cordinationy);
             repaint();
@@ -288,7 +309,6 @@ public class PlayFiled extends JPanel {
             repaint();
 
         }
-
         done = true;
 
     }
@@ -391,8 +411,7 @@ public class PlayFiled extends JPanel {
                 FirstCordination f3 = new FirstCordination(x + 120, y);
                 hamsayee.add(f3);
             }
-        }
-        if (kindOfHit == 36 || kindOfHit == 38) {
+        } if (kindOfHit == 36 || kindOfHit == 38) {
             if (x - 80 > 0) {
                 FirstCordination f2 = new FirstCordination(x - 80, y);
                 hamsayee.add(f2);
@@ -401,14 +420,13 @@ public class PlayFiled extends JPanel {
                 FirstCordination f3 = new FirstCordination(x + 80, y);
                 hamsayee.add(f3);
             }
-        }
-        if (kindOfHit == 37) {
+        }if (kindOfHit == 37) {
             if (x + 40 > 0) {
                 FirstCordination f2 = new FirstCordination(x - 40, y);
                 hamsayee.add(f2);
             }
-            if (x - 120 > 0) {
-                FirstCordination f3 = new FirstCordination(x - 120, y);
+            if (x -120>0) {
+                FirstCordination f3 = new FirstCordination(x-120, y);
                 hamsayee.add(f3);
             }
         }
@@ -453,6 +471,9 @@ public class PlayFiled extends JPanel {
 
     }
 
+    public int getAllMarked() {
+        return allMarked;
+    }
 
     public boolean isDone() {
         return done;

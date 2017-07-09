@@ -12,19 +12,17 @@ import java.io.IOException;
  */
 public class WriteToJSon {
     private JSONObject obj = new JSONObject();
-    private String ip;
     private String id;
-    private String name;
     private JSONArray list;
     private File file;
 
     public WriteToJSon(String ip1, String id1, String name1) {
-        name = name1;
+        id = id1;
         obj.put("name", name1);
         obj.put("id", id1);
         obj.put("ip", ip1);
         list = new JSONArray();
-        File file = new File(name1 + ".json");
+        File file = new File(id1 + ".json");
     }
 
     public void addMes(String name, String messege, String time1) {
@@ -37,13 +35,15 @@ public class WriteToJSon {
     }
 
     public void output() {
-        try (FileWriter file = new FileWriter(name + ".json")) {
+        try (FileWriter file = new FileWriter(id + ".json")) {
             file.write(obj.toJSONString());
             file.flush();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        System.out.println(obj);
 
     }
 }

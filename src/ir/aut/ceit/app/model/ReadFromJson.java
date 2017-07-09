@@ -10,16 +10,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
 
-/**
- * Created by shsh9692 on 7/9/2017.
- */
 public class ReadFromJson {
+    private String history = "";
+    private String hIp = "";
+    private String hName = "";
+    private String date = "";
+    private JSONArray msg;
+
     public String readJSon(String filename) {
-        String history = "";
+
         JSONParser parser = new JSONParser();
         String newLine = System.getProperty("line.separator");//This will retrieve line separator dependent on OS.
-
-
         try {
 
             Object obj = parser.parse(new FileReader(filename));
@@ -29,20 +30,20 @@ public class ReadFromJson {
 
             String ip = (String) jsonObject.get("ip");
             System.out.println(ip);
-            history = history + newLine + ip;
+            hIp = hIp + ip;
 
             String name = (String) jsonObject.get("name");
             System.out.println(name);
-            history = history + newLine + name;
+            hName = hName + name;
 
-            long id = (Long) jsonObject.get("id");
+            String id = (String) jsonObject.get("id");
             System.out.println(id);
-            history = history + newLine + id;
+            date = date + newLine + id;
 
             // loop array
-            JSONArray msg = (JSONArray) jsonObject.get("messages");
+            msg = (JSONArray) jsonObject.get("messages");
             Iterator<JSONObject> iterator = msg.iterator();
-            while (iterator.hasNext()) {
+            while ( iterator.hasNext()) {
                 JSONObject j = iterator.next();
                 String sender = (String) j.get("sender");
                 System.out.println(sender);
@@ -53,8 +54,8 @@ public class ReadFromJson {
                 String time = (String) j.get("time");
                 System.out.println(time);
                 history = history + newLine + time;
-                return history;
             }
+            return history;
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -64,6 +65,28 @@ public class ReadFromJson {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public String getHistory() {
+        return history;
+    }
+
+
+
+    public String getDate() {
+        return date;
+    }
+
+    public String gethIp() {
+        return hIp;
+    }
+
+    public String gethName() {
+        return hName;
+    }
+
+    public JSONArray getMsg() {
+        return msg;
     }
 }
 

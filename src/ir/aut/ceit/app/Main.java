@@ -95,6 +95,12 @@ public class Main {
                 chat.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 chat.setVisible(true);
 
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
+                LocalDateTime now = LocalDateTime.now();
+                String timeAsId = dtf.format(now);
+
+                WriteToJSon writer = new WriteToJSon(selectConnectionMode.getmIp(), timeAsId, messageManager.getName());
+
                 while (stage3) {
 
                     if (!messageManager.isGameStart() && playFrame.isStarted()) {
@@ -108,6 +114,8 @@ public class Main {
 
                     if (chat.isaMessageSent()) {
                         messageManager.sendTextMessage("", chat.getMyMessage());
+                        writer.addMes("Me", chat.getMyMessage(), chat.getTime());
+                        writer.output();
                         chat.setaMessageSent(false);
                     }
 
@@ -171,6 +179,8 @@ public class Main {
 
                     if (messageManager.isGotTextMessage()) {
                         chat.displayMessage(messageManager.getName(), messageManager.getTextMessage());
+                        writer.addMes(messageManager.getName(), messageManager.getTextMessage(), chat.getTime());
+                        writer.output();
                         messageManager.setGotTextMessage(false);
                     }
 
@@ -239,7 +249,7 @@ public class Main {
                 chat.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 chat.setVisible(true);
 
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mmHH:mm");
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
                 LocalDateTime now = LocalDateTime.now();
                 String timeAsId = dtf.format(now);
 
@@ -268,6 +278,7 @@ public class Main {
                     if (chat.isaMessageSent()) {
                         messageManager.sendTextMessage(waitingForConnection.getAcceptedIp(), chat.getMyMessage());
                         writer.addMes("Me", chat.getMyMessage(), chat.getTime());
+                        writer.output();
                         chat.setaMessageSent(false);
                     }
 
@@ -331,6 +342,7 @@ public class Main {
                     if (messageManager.isGotTextMessage()) {
                         chat.displayMessage(waitingForConnection.getAcceptedName(), messageManager.getTextMessage());
                         writer.addMes(waitingForConnection.getAcceptedName(), messageManager.getTextMessage(), chat.getTime());
+                        writer.output();
                         messageManager.setGotTextMessage(false);
                     }
 
