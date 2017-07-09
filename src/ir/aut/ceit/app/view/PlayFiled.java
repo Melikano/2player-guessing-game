@@ -18,6 +18,8 @@ public class PlayFiled extends JPanel {
     private ArrayList<FirstCordination> hamsayee = new ArrayList<>();
     private ArrayList<FirstCordination> littleRects = new ArrayList<>();
     private int allMarked = 0;
+    private int youWon = 0;
+    private int opponentWon = 0;
     private boolean done;
 
     private int endOfTheGame = 0;
@@ -163,6 +165,7 @@ public class PlayFiled extends JPanel {
             placeshit.add(f);
             repaint();
             String hamsayeha = kindOfRect(x, y, 0);
+            opponentWon++;
             return "1" + "&" + hamsayeha + "&" + x + "&" + y;
 
         }
@@ -188,13 +191,13 @@ public class PlayFiled extends JPanel {
         if (rectOne2.contains(x + 10, y + 10) || noe == 2) {
             contain(15, 470);
             //yedoonas
-            allMarked++;
+            youWon++;
             return "2" + "&" + "1";
         }
         if (rectOne3.contains(x + 10, y + 10) || noe == 3) {
             contain(30, 470);
             //yedoonas
-            allMarked++;
+            youWon++;
             return "3" + "&" + "1";
 
         }
@@ -297,6 +300,7 @@ public class PlayFiled extends JPanel {
             placeshit.add(f);
             hamsaye(cordinationx, cordinationy);
 
+            youWon++;
             kindOfRect(cordinationx, cordinationy, noe);
             findingKindOfHit(kindOfHit, cordinationx, cordinationy);
             repaint();
@@ -473,6 +477,14 @@ public class PlayFiled extends JPanel {
 
     public int getAllMarked() {
         return allMarked;
+    }
+
+    public int getyouWon() {
+        return youWon;
+    }
+
+    public int getOpponentWon() {
+        return opponentWon;
     }
 
     public boolean isDone() {

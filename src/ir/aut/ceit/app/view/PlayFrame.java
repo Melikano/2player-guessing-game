@@ -28,6 +28,8 @@ public class PlayFrame extends JFrame {
     private JButton rotate = new JButton("rotate");
     private JButton leave = new JButton("leave");
     private JButton start = new JButton("Start");
+    private JButton chatHistory = new JButton(" chatHistory");
+    private boolean showChatHistory;
     private int x;
     private int y;
     private boolean leaved = false;
@@ -79,11 +81,13 @@ public class PlayFrame extends JFrame {
         rotate.addActionListener(new Handler());
         leave.addActionListener(new Handler());
         start.addActionListener(new Handler());
+        chatHistory.addActionListener(new Handler());
         rotate.setSize(10, 10);
         leave.setSize(10, 10);
         jpanelBottons.add(rotate);
         jpanelBottons.add(leave);
         jpanelBottons.add(start);
+        jpanelBottons.add(chatHistory);
 
         add(jpanelBottons, BorderLayout.SOUTH);
 
@@ -195,6 +199,14 @@ public class PlayFrame extends JFrame {
         this.started = started;
     }
 
+    public boolean isShowChatHistory() {
+        return showChatHistory;
+    }
+
+    public void setShowChatHistory(boolean showChatHistory) {
+        this.showChatHistory = showChatHistory;
+    }
+
     private class Handler implements ActionListener {
 
         @Override
@@ -212,6 +224,10 @@ public class PlayFrame extends JFrame {
             }
             if (event.getSource() == leave) {
                 leaved = true;
+
+            }if (event.getSource() == chatHistory) {
+
+                showChatHistory = true;
 
             }
         }

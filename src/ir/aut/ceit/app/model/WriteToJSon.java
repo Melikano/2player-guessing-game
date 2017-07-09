@@ -36,16 +36,13 @@ public class WriteToJSon {
     }
 
     public void output() {
-        String[] arr = id.split(" ");
-        try (FileWriter file = new FileWriter(new File("src/" + arr[0] + "-" + arr[1] + ".json"))) {
+        try (FileWriter file = new FileWriter(new File("src/" + name + ".json"))) {
             file.write(obj.toJSONString());
             file.flush();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        System.out.println(obj);
 
     }
 }

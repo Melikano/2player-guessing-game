@@ -85,9 +85,7 @@ public class ChatHistoryMenu extends JFrame {
                         JSONObject j = iterator.next();
                         String sender = (String) j.get("sender");
                         String imesg = (String) j.get("mesg");
-                        System.out.println(imesg);
                         String time = (String) j.get("time");
-                        System.out.println(time);
                         chatHistory.displayMessageHistory(sender, imesg, time);
                     }
                     chatHistory.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

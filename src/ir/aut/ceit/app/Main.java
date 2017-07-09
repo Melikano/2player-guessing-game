@@ -119,6 +119,13 @@ public class Main {
                         chat.setaMessageSent(false);
                     }
 
+                    if(playFrame.isShowChatHistory()){
+                        ChatHistoryMenu chatHistoryMenu = new ChatHistoryMenu();
+                        chatHistoryMenu.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                        chatHistoryMenu.setVisible(true);
+                        playFrame.setShowChatHistory(false);
+                    }
+
                     if (playFrame.getMouseClickHandler().isClicked() && messageManager.isGameStart() && playFrame.isStarted()) {
                         while (true) {
                             System.out.println("t");
@@ -280,6 +287,13 @@ public class Main {
                         writer.addMes("Me", chat.getMyMessage(), chat.getTime());
                         writer.output();
                         chat.setaMessageSent(false);
+                    }
+
+                    if(playFrame.isShowChatHistory()){
+                        ChatHistoryMenu chatHistoryMenu = new ChatHistoryMenu();
+                        chatHistoryMenu.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                        chatHistoryMenu.setVisible(true);
+                        playFrame.setShowChatHistory(false);
                     }
 
                     if (playFrame.getMouseClickHandler().isClicked() && messageManager.isGameStart() && playFrame.isStarted()) {
