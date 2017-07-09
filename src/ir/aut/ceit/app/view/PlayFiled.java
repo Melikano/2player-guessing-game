@@ -17,8 +17,8 @@ public class PlayFiled extends JPanel {
     private ArrayList<FirstCordination> placesmiss = new ArrayList<FirstCordination>();
     private ArrayList<FirstCordination> hamsayee = new ArrayList<>();
     private ArrayList<FirstCordination> littleRects = new ArrayList<>();
+    private int allMarked = 0;
     private boolean done;
-    private int allMarked=0;
 
     private int endOfTheGame = 0;
     int hostOrGeust;

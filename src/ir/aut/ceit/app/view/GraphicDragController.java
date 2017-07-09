@@ -20,14 +20,13 @@ class GraphicDragController extends MouseInputAdapter {
     private ArrayList<Rectangle> rects;
 
 
-    public GraphicDragController(PlayFiled gdad, Rectangle rect, boolean changable,   ArrayList<Rectangle> rects1)
-     {
+    public GraphicDragController(PlayFiled gdad, Rectangle rect, boolean changable, ArrayList<Rectangle> rects1) {
         component = gdad;
         component.addMouseListener(this);
         component.addMouseMotionListener(this);
         this.changable = changable;
         this.rect = rect;
-       rects=rects1;
+        rects = rects1;
 
         x1 = (int) rect.getX();
         y1 = (int) rect.getY();
@@ -64,11 +63,10 @@ class GraphicDragController extends MouseInputAdapter {
 
                     x1 = 40 * (x / 40);
                     y1 = 40 * (y / 40);
-                    if (notNearRed(x1, y1)) {
+                    NotOverLap notOverLap = new NotOverLap();
+                    if (notNearRed(x1, y1) || notOverLap.cantRotate(rect,rects) ) {
                         System.out.println("sotty you can not put in here");
                         component.setRect(rect, x2, y2);
-                        System.out.println(y1);
-                        System.out.println(y2);
                         y1 = y2;
                         x1 = x2;
                     } else {
@@ -82,30 +80,54 @@ class GraphicDragController extends MouseInputAdapter {
     }
 
     private boolean notNearRed(int x, int y) {
-        boolean red;
-        int tedadDarArz = (int) rect.getWidth() / 41;
-        int tedadDarErtefa = (int) rect.getHeight() / 41;
-        if (tedadDarArz <= 1) {
-            for (int i = -1; i <= tedadDarErtefa; i++) {
-                System.out.println("amoodi");
-                red = hamsaye(x - 20, y + 20 * i);
+        int mabdaKeshidanx = -1;
+        int mabdaKeshidany = -1;
+        int width = -1;
+        int height = -1;
+        for (int i = 0; i < rects.size(); i++) {
+            if (rects.get(i).contains(x, y)) {
+                width = (int) rects.get(i).getWidth();
+                height = (int) rects.get(i).getHeight();
+                mabdaKeshidanx = (int) rects.get(i).getX();
+                mabdaKeshidany = (int) rects.get(i).getY();
+            }}
+            // x-10 ta x+width+10
+            //y-10 ta y+height+10
+            if (mabdaKeshidanx == -1 || mabdaKeshidany == -1 || width == -1 || height == -1) {
 
-                if (red) {
+                return false;
+            } else {
+                for (int p = 0; p <= (((width + 20) / 40) + 1); p++) {
+                   if( hamsaye(x - 10 + p * 40, mabdaKeshidany - 10)){
+                       System.out.println("4");
+
+                       return true;
+                   }
+                }
+                for (int p = 0; p <= (((width + 20) / 40) + 1); p++) {
+                    if(  hamsaye(x - 10 + p * 40, mabdaKeshidany + height + 10)){
+                        System.out.println("3");
+
+                        return true;
+                    }
+
+                }
+                for (int p = 0; p <= (((height + 20) / 40) + 1); p++) {
+                if(    hamsaye(mabdaKeshidanx - 10, y - 10 + p * 40)){
+                    System.out.println("2");
+
                     return true;
                 }
-            }
-            for (int i = -1; i <= tedadDarErtefa; i++) {
-                red = hamsaye(x + 60, y + 20 * i);
-
-                if (red) {
-                    return true;
                 }
-            }
-            //  if(hamsaye( x+20 ,y-20)){
-            //      return true;
-            //     }
+                for (int p = 0; p <= (((height + 20) / 40) + 1); p++) {
+                   if( hamsaye(mabdaKeshidanx + width + 10, y - 10 + p * 40)){
+                       System.out.println("1");
 
-        }
+                       return true;}
+                }
+
+            }
+
         return false;
     }
 

@@ -13,11 +13,13 @@ import java.io.IOException;
 public class WriteToJSon {
     private JSONObject obj = new JSONObject();
     private String id;
+    private String name;
     private JSONArray list;
     private File file;
 
     public WriteToJSon(String ip1, String id1, String name1) {
         id = id1;
+        name = name1;
         obj.put("name", name1);
         obj.put("id", id1);
         obj.put("ip", ip1);
@@ -35,7 +37,7 @@ public class WriteToJSon {
     }
 
     public void output() {
-        try (FileWriter file = new FileWriter(id + ".json")) {
+        try (FileWriter file = new FileWriter(new File("src/" + name + ".json"))) {
             file.write(obj.toJSONString());
             file.flush();
 
