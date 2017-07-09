@@ -26,18 +26,14 @@ public class ReadFromJson {
             Object obj = parser.parse(new FileReader(filename));
 
             JSONObject jsonObject = (JSONObject) obj;
-            //System.out.println(jsonObject);
 
             String ip = (String) jsonObject.get("ip");
-            System.out.println(ip);
             hIp = hIp + ip;
 
             String name = (String) jsonObject.get("name");
-            System.out.println(name);
             hName = hName + name;
 
             String id = (String) jsonObject.get("id");
-            System.out.println(id);
             date = date + newLine + id;
 
             // loop array

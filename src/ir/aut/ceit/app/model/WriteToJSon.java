@@ -15,7 +15,6 @@ public class WriteToJSon {
     private String id;
     private String name;
     private JSONArray list;
-    private File file;
 
     public WriteToJSon(String ip1, String id1, String name1) {
         id = id1;
@@ -37,7 +36,8 @@ public class WriteToJSon {
     }
 
     public void output() {
-        try (FileWriter file = new FileWriter(new File("src/" + name + ".json"))) {
+        String[] arr = id.split(" ");
+        try (FileWriter file = new FileWriter(new File("src/" + arr[0] + "-" + arr[1] + ".json"))) {
             file.write(obj.toJSONString());
             file.flush();
 
